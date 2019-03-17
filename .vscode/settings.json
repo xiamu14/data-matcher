@@ -1,0 +1,11 @@
+{
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+        "typescript",
+        {
+            "language": "typescript",
+            "autoFix": true
+        },
+    ],
+    "files.autoSave": "onWindowChange"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "data_adapter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^1.0.0",
+    "eslint": "^5.15.2",
+    "eslint-config-airbnb-typescript": "^1.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^1.16.4",
+    "rollup": "^1.6.0",
+    "rollup-plugin-eslint": "^5.0.0",
+    "rollup-plugin-typescript2": "^0.20.1",
+    "typescript": "^3.3.3333"
+  },
+  "dependencies": {}
+}
