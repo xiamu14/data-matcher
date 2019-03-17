@@ -3,11 +3,11 @@
  * @Author: Ben
  * @LastEditors: Ben
  * @Date: 2019-03-17 13:36:19
- * @LastEditTime: 2019-03-17 22:49:12
+ * @LastEditTime: 2019-03-17 23:08:45
  */
 
 class Adapt {
-  data: object | object[];
+  data: object | object[]
 
   input(data) {
     this.data = data
@@ -30,13 +30,13 @@ class Adapt {
     const { data } = this
     const targetKeys = Object.keys(map)
     const target = {}
-    Object.keys(data).forEach((key) => {
+    Object.keys(data).forEach(key => {
       if (targetKeys.includes(key)) {
         target[map[key]] = data[key]
       } else {
         target[key] = data[key]
       }
-    });
+    })
     this.data = target
     return this
   }
@@ -45,7 +45,7 @@ class Adapt {
   transformValueType(map) {
     const { data } = this
     const target = {}
-    Object.keys(data).forEach((key) => {
+    Object.keys(data).forEach(key => {
       if (map[key] === 'number') {
         target[key] = parseInt(data[key], 10)
       } else if (map[key] === 'string') {
@@ -62,7 +62,7 @@ class Adapt {
   transformEmpty() {
     const { data } = this
     const target = <object>{}
-    Object.keys(data).forEach((key) => {
+    Object.keys(data).forEach(key => {
       if (data[key] === null || data[key] === 'undefined' || data[key] === '"undefined"') {
         target[key] = ''
       } else {
@@ -77,7 +77,7 @@ class Adapt {
   addKey(map) {
     const { data } = this
     const target = data
-    Object.keys(map).forEach((key) => {
+    Object.keys(map).forEach(key => {
       target[key] = map[key]
     })
     this.data = target
@@ -96,8 +96,8 @@ class Adapt {
   // 根据 key 值分类，处理的是数组
   classifyKey(key) {
     const { data } = this
-    const target = [];
-    (data as Array<Object>).forEach((item) => {
+    const target = []
+    ;(data as Array<Object>).forEach(item => {
       const val = item[key]
       if (!Object.keys(target).includes(val.toString())) {
         target[val] = []
