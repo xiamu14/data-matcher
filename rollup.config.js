@@ -1,5 +1,6 @@
 import { eslint } from "rollup-plugin-eslint";
 import typescript from 'rollup-plugin-typescript2';
+import filesize from 'rollup-plugin-filesize';
 import pkg from './package.json';
 
 export default [
@@ -13,6 +14,7 @@ export default [
     },
     plugins: [
       eslint(),
+      filesize(),
       typescript({
         declaration: true
       })
