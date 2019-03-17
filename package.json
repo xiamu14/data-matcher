@@ -1,11 +1,12 @@
 {
-  "name": "data_adapter",
+  "name": "data-adapter",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
     "dev": "rollup -c -w",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "jest": "jest"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.0.0",

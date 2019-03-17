@@ -1,13 +1,11 @@
-interface person {
-  name: string;
-  age: number;
-}
+/*
+ * @Description:
+ * @Author: Ben
+ * @LastEditors: Ben
+ * @Date: 2019-03-17 13:36:19
+ * @LastEditTime: 2019-03-17 15:15:33
+ */
 
-const tom: person = {
-  name: 'Tom',
-  age: 25,
-};
+import core from './core'
 
-if (tom.age === 25) {
-  console.log('2');
-}
+export default core
