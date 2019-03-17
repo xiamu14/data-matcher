@@ -1,6 +1,6 @@
 {
-  "name": "data-adapter",
-  "version": "1.0.0",
+  "name": "data-matcher",
+  "version": "0.0.2",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
