@@ -163,7 +163,9 @@
 <a name='L115'></a><a href='#L115'>115</a>
 <a name='L116'></a><a href='#L116'>116</a>
 <a name='L117'></a><a href='#L117'>117</a>
-<a name='L118'></a><a href='#L118'>118</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -232,6 +234,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -283,7 +287,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function (global, factory) {
   typeof exports === 'object' &amp;&amp; typeof module !== 'undefined' ? module.exports = factory() :
 <span class="branch-1 cbranch-no" title="branch not covered" >  typeof define === 'function' &amp;&amp; define.amd ? define(factory) :</span>
-  (global = global || self, global['data-adapter'] = factory());
+  (global = global || self, global['data-matcher'] = factory());
 }(this, function () { 'use strict';
 &nbsp;
   /*
@@ -291,26 +295,26 @@
    * @Author: Ben
    * @LastEditors: Ben
    * @Date: 2019-03-17 13:36:19
-   * @LastEditTime: 2019-03-17 23:02:30
+   * @LastEditTime: 2019-03-17 23:30:42
    */
-  var Adapt = /** @class */ (function () {
-      function Adapt() {
+  var Matcher = /** @class */ (function () {
+      function Matcher() {
       }
-      Adapt.prototype.input = function (data) {
+      Matcher.prototype.input = function (data) {
           this.data = data;
           return this;
       };
-      Adapt.prototype.output = function () {
+      Matcher.prototype.output = function () {
           return this.data;
       };
       // 处理的是 val
-      Adapt.prototype.toValuesArray = <span class="fstat-no" title="function not covered" >fu</span>nction () {
+      Matcher.prototype.toValuesArray = <span class="fstat-no" title="function not covered" >fu</span>nction () {
           var data = <span class="cstat-no" title="statement not covered" >this.data;</span>
 <span class="cstat-no" title="statement not covered" >          this.data = Object.values(data);</span>
 <span class="cstat-no" title="statement not covered" >          return this;</span>
       };
       // 转换 key 值，处理的是对象
-      Adapt.prototype.transformKey = function (map) {
+      Matcher.prototype.transformKey = function (map) {
           var data = this.data;
           var targetKeys = Object.keys(map);
           var target = {};
@@ -326,7 +330,7 @@
           return this;
       };
       // 转换 value 值类型，处理的是对象
-      Adapt.prototype.transformValueType = <span class="fstat-no" title="function not covered" >fu</span>nction (map) {
+      Matcher.prototype.transformValueType = <span class="fstat-no" title="function not covered" >fu</span>nction (map) {
           var data = <span class="cstat-no" title="statement not covered" >this.data;</span>
           var target = <span class="cstat-no" title="statement not covered" >{};</span>
 <span class="cstat-no" title="statement not covered" >          Object.keys(data).forEach(<span class="fstat-no" title="function not covered" >fu</span>nction (key) {</span>
@@ -344,11 +348,13 @@
 <span class="cstat-no" title="statement not covered" >          return this;</span>
       };
       // 将所有的非值字段转换为空字符串，处理的是对象
-      Adapt.prototype.transformEmpty = <span class="fstat-no" title="function not covered" >fu</span>nction () {
+      Matcher.prototype.transformEmpty = <span class="fstat-no" title="function not covered" >fu</span>nction () {
           var data = <span class="cstat-no" title="statement not covered" >this.data;</span>
           var target = <span class="cstat-no" title="statement not covered" >{};</span>
 <span class="cstat-no" title="statement not covered" >          Object.keys(data).forEach(<span class="fstat-no" title="function not covered" >fu</span>nction (key) {</span>
-<span class="cstat-no" title="statement not covered" >              if (data[key] === null || data[key] === 'undefined' || data[key] === '"undefined"') {</span>
+<span class="cstat-no" title="statement not covered" >              if (data[key] === null ||</span>
+                  data[key] === 'undefined' ||
+                  data[key] === '"undefined"') {
 <span class="cstat-no" title="statement not covered" >                  target[key] = '';</span>
               }
               else {
@@ -359,7 +365,7 @@
 <span class="cstat-no" title="statement not covered" >          return this;</span>
       };
       // 增加默认字段，处理的是对象
-      Adapt.prototype.addKey = <span class="fstat-no" title="function not covered" >fu</span>nction (map) {
+      Matcher.prototype.addKey = <span class="fstat-no" title="function not covered" >fu</span>nction (map) {
           var data = <span class="cstat-no" title="statement not covered" >this.data;</span>
           var target = <span class="cstat-no" title="statement not covered" >data;</span>
 <span class="cstat-no" title="statement not covered" >          Object.keys(map).forEach(<span class="fstat-no" title="function not covered" >fu</span>nction (key) {</span>
@@ -369,7 +375,7 @@
 <span class="cstat-no" title="statement not covered" >          return this;</span>
       };
       // 增加字段，val 值由外部函数定义
-      Adapt.prototype.addKeyVal = <span class="fstat-no" title="function not covered" >fu</span>nction (key, fn) {
+      Matcher.prototype.addKeyVal = <span class="fstat-no" title="function not covered" >fu</span>nction (key, fn) {
           var data = <span class="cstat-no" title="statement not covered" >this.data;</span>
           var target = <span class="cstat-no" title="statement not covered" >data;</span>
 <span class="cstat-no" title="statement not covered" >          target[key] = fn &amp;&amp; fn(data);</span>
@@ -377,7 +383,7 @@
 <span class="cstat-no" title="statement not covered" >          return this;</span>
       };
       // 根据 key 值分类，处理的是数组
-      Adapt.prototype.classifyKey = <span class="fstat-no" title="function not covered" >fu</span>nction (key) {
+      Matcher.prototype.classifyKey = <span class="fstat-no" title="function not covered" >fu</span>nction (key) {
           var data = <span class="cstat-no" title="statement not covered" >this.data;</span>
           var target = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >          data.forEach(<span class="fstat-no" title="function not covered" >fu</span>nction (item) {</span>
@@ -390,11 +396,11 @@
 <span class="cstat-no" title="statement not covered" >          this.data = target;</span>
 <span class="cstat-no" title="statement not covered" >          return this;</span>
       };
-      return Adapt;
+      return Matcher;
   }());
-  var adapt = new Adapt();
+  var matcher = new Matcher();
 &nbsp;
-  return adapt;
+  return matcher;
 &nbsp;
 }));
 &nbsp;</pre></td></tr>
@@ -403,7 +409,7 @@
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Mar 17 2019 23:21:35 GMT+0800 (CST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Mar 17 2019 23:31:28 GMT+0800 (CST)
 </div>
 </div>
 <script src="prettify.js"></script>

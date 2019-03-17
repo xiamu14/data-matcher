@@ -3,10 +3,10 @@
  * @Author: Ben
  * @LastEditors: Ben
  * @Date: 2019-03-17 13:36:19
- * @LastEditTime: 2019-03-17 23:08:45
+ * @LastEditTime: 2019-03-17 23:30:42
  */
 
-class Adapt {
+class Matcher {
   data: object | object[]
 
   input(data) {
@@ -63,7 +63,11 @@ class Adapt {
     const { data } = this
     const target = <object>{}
     Object.keys(data).forEach(key => {
-      if (data[key] === null || data[key] === 'undefined' || data[key] === '"undefined"') {
+      if (
+        data[key] === null ||
+        data[key] === 'undefined' ||
+        data[key] === '"undefined"'
+      ) {
         target[key] = ''
       } else {
         target[key] = data[key]
@@ -109,6 +113,6 @@ class Adapt {
   }
 }
 
-const adapt = new Adapt()
+const matcher = new Matcher()
 
-export default adapt
+export default matcher

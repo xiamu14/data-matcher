@@ -1,8 +1,7 @@
-const Adapter = require('../lib/index.js')
-const adapter = Adapter
+const matcher = require('../lib/index.js')
 test('adapter', () => {
   expect(
-    adapter
+    matcher
       .input({ test: '1' })
       .transformKey({ test: 'tag' })
       .output(),
