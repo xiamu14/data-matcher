@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "main": "lib/index.js",
   "license": "MIT",
+  "registry": "git@github.com:xiamu14/data-matcher.git",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
