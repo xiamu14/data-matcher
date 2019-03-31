@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
-    "jest": "jest __test__/*.spec.ts --coverage"
+    "jest": "yarn build && jest __test__/*.spec.ts --coverage"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",

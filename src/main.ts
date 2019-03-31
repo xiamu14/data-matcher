@@ -1,9 +1,9 @@
 /*
- * @Description:
+ * @Description: 数据处理中间价
  * @Author: Ben
  * @LastEditors: Ben
  * @Date: 2019-03-17 13:36:19
- * @LastEditTime: 2019-03-17 23:30:42
+ * @LastEditTime: 2019-03-31 23:02:32
  */
 
 class Matcher {
@@ -94,6 +94,13 @@ class Matcher {
     const target = data
     target[key] = fn && fn(data)
     this.data = target
+    return this
+  }
+
+  // 添加函数，处理 data 里的部分数据
+  part(key, fn) {
+    const data = this.data
+    this.data[key] = fn && fn(data[key])
     return this
   }
 
