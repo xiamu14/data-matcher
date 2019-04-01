@@ -1,9 +1,9 @@
 /*
- * @Description: 数据处理中间价
+ * @Description: 数据处理中间件
  * @Author: Ben
  * @LastEditors: Ben
  * @Date: 2019-03-17 13:36:19
- * @LastEditTime: 2019-03-31 23:02:32
+ * @LastEditTime: 2019-04-01 14:20:33
  */
 
 class Matcher {
@@ -120,6 +120,4 @@ class Matcher {
   }
 }
 
-const matcher = new Matcher()
-
-export default matcher
+export default Matcher

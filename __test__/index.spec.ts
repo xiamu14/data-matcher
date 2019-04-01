@@ -1,4 +1,5 @@
-const matcher = require('../lib/index.js')
+const Matcher = require('../lib/index.js')
+const matcher = new Matcher()
 test('adapter', () => {
   expect(
     matcher
