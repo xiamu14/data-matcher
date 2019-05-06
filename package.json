@@ -1,16 +1,19 @@
 {
   "name": "data-matcher",
   "version": "0.0.6",
-  "main": "lib/index.js",
+  "main": "dist",
   "license": "MIT",
   "registry": "git@github.com:xiamu14/data-matcher.git",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
-    "jest": "yarn build && jest __test__/*.spec.ts --coverage"
+    "jest": "jest __test__/*.spec.ts --coverage"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "@types/jest": "^24.0.11",
+    "babel-jest": "^24.8.0",
     "jest": "^24.5.0",
     "rollup": "^1.6.0",
     "rollup-plugin-filesize": "^6.0.1",
@@ -18,5 +21,7 @@
     "ts-jest": "^24.0.0",
     "typescript": "^3.3.3333"
   },
-  "dependencies": {}
+  "dependencies": {
+    "data-matcher": "file:./"
+  }
 }

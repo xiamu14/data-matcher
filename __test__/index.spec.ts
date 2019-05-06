@@ -1,4 +1,11 @@
-const Matcher = require('../lib/index.js');
+import Matcher from '../dist';
+import { addKey } from '../lib';
+
+test('addKey', () => {
+  const source = { a: 'a' };
+  expect(addKey(source, { b: 'b' })).toEqual({ a: 'a', b: 'b' });
+});
+
 test('transformKey', () => {
   const matcher = new Matcher({ test: '1' });
   expect(matcher.transformKey({ test: 'tag' }).data).toEqual({

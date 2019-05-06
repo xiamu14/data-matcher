@@ -5,20 +5,33 @@ import pkg from './package.json';
 export default [
   // browser-friendly UMD build
   {
-    input: 'src/main.ts',
+    input: 'src/index.ts',
     output: {
       name: pkg.name,
-      file: pkg.main,
-      format: 'umd'
+      file: 'dist/index.js',
+      format: 'umd',
     },
     plugins: [
       filesize(),
       typescript({
-        declaration: true
-      })
-    ]
+        declaration: true,
+      }),
+    ],
   },
-
+  {
+    input: 'src/lib.ts',
+    output: {
+      name: pkg.name,
+      file: 'lib/index.js',
+      format: 'umd',
+    },
+    plugins: [
+      filesize(),
+      typescript({
+        declaration: true,
+      }),
+    ],
+  },
   // CommonJS (for Node) and ES module (for bundlers) build.
   // (We could have three entries in the configuration array
   // instead of two, but it's quicker to generate multiple

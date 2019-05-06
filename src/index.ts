@@ -3,7 +3,7 @@
  * @Author: Ben
  * @LastEditors: Ben
  * @Date: 2019-03-17 13:36:19
- * @LastEditTime: 2019-04-26 10:44:32
+ * @LastEditTime: 2019-05-06 18:20:00
  */
 import toValuesArray from './to_values_array';
 import transformKey from './transfrom_key';
@@ -62,6 +62,10 @@ class Matcher {
   // 添加函数，处理 data 里的部分数据
   part(key, fn) {
     this.data = part(this.data, key, fn);
+    return this;
+  }
+  classifyKey(key) {
+    this.data = classifyKey(this.data as object[], key);
     return this;
   }
 }
