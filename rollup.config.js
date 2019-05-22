@@ -22,7 +22,7 @@ export default [
     input: 'src/lib.ts',
     output: {
       name: pkg.name,
-      file: 'lib/index.js',
+      file: 'dist/lib/index.js',
       format: 'umd',
     },
     plugins: [

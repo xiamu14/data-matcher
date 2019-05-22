@@ -16,11 +16,16 @@ test('transformKey', () => {
 test('part', () => {
   const matcher = new Matcher({ test: '1', b: '2' });
   expect(
-    matcher.part('test', () => {
-      return 3;
-    }).data,
+    matcher.part(
+      'test',
+      () => {
+        return 3;
+      },
+      'c',
+    ).data,
   ).toEqual({
-    test: 3,
+    test: '1',
+    c: 3,
     b: '2',
   });
 });

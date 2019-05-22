@@ -1625,16 +1625,6 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-"data-matcher@file:./":
-  version "0.0.6"
-  dependencies:
-    data-matcher "file:../../../../../Library/Caches/Yarn/v4/npm-data-matcher-0.0.6-640787cc-94aa-4cc3-8431-82502f53ca5c-1557130926936/node_modules/data-matcher"
-
-"data-matcher@file:./.":
-  version "0.0.6"
-  dependencies:
-    data-matcher "file:../../../../../Library/Caches/Yarn/v4/npm-data-matcher-0.0.6-55d9c048-df56-425a-b52e-ca4012d7db51-1557130926647/node_modules/data-matcher"
-
 data-urls@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/data-urls/-/data-urls-1.1.0.tgz#15ee0582baa5e22bb59c77140da8f9c76963bbfe"
