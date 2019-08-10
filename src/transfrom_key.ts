@@ -7,7 +7,7 @@
  * @LastEditTime: 2019-04-25 11:19:24
  */
 
-export default function transfromKey(data: object, map: object): object {
+function _transformKey(data: object, map: object): object {
   const targetKeys = Object.keys(map);
   const target = {};
   Object.keys(data).forEach(key => {
@@ -18,4 +18,14 @@ export default function transfromKey(data: object, map: object): object {
     }
   });
   return target;
+}
+
+export default function transformKey(data: object | object[], map: object) {
+  let res = {};
+  if (Array.isArray(data)) {
+    res = data.map(item => _transformKey(item, map));
+  } else {
+    res = _transformKey(data, map);
+  }
+  return res;
 }

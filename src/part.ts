@@ -7,12 +7,7 @@
  * @LastEditTime: 2019-05-22 11:17:07
  */
 
-export default function part(
-  data: object,
-  key: string,
-  fn: Function,
-  copy?: string,
-) {
+function _part(data: object, key: string, fn: Function, copy?: string) {
   if (!Object.prototype.hasOwnProperty.bind(data, key)) {
     throw new RangeError(`the data hasn't key ${key}`);
   }
@@ -23,4 +18,19 @@ export default function part(
     target[key] = fn(data[key]);
   }
   return target;
+}
+
+export default function part(
+  data: object | object[],
+  key: string,
+  fn: Function,
+  copy?: string,
+) {
+  let res = {};
+  if (Array.isArray(data)) {
+    res = data.map(item => _part(item, key, fn, copy));
+  } else {
+    res = _part(data, key, fn, copy);
+  }
+  return res;
 }

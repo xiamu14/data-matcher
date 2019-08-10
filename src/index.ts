@@ -5,14 +5,17 @@
  * @Date: 2019-03-17 13:36:19
  * @LastEditTime: 2019-05-22 11:16:49
  */
-import toValuesArray from './to_values_array';
-import transformKey from './transfrom_key';
-import transformValueType from './transform_value_type';
-import transformEmpty from './transform_empty';
-import addKey from './add_key';
-import part from './part';
-import addKeyFn from './add_key_fn';
-import classifyKey from './classify_key';
+import {
+  transformKey,
+  toValuesArray,
+  transformValueType,
+  transformEmpty,
+  addKey,
+  part,
+  addKeyFn,
+  classifyKey,
+  remove,
+} from './lib';
 
 type sourceData = object | object[];
 
@@ -68,6 +71,22 @@ class Matcher {
     this.data = classifyKey(this.data as object[], key);
     return this;
   }
+  remove(keys) {
+    this.data = remove(this.data, keys);
+    return this;
+  }
 }
 
 export default Matcher;
+
+export {
+  transformKey,
+  toValuesArray,
+  transformValueType,
+  transformEmpty,
+  addKey,
+  part,
+  addKeyFn,
+  classifyKey,
+  remove,
+};
