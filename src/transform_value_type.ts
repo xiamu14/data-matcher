@@ -7,7 +7,13 @@
  * @LastEditTime: 2019-04-26 10:23:21
  */
 
-export default function transformValueType(data: object, map: object): object {
+import supportArray from './util/supportArray';
+/**
+ * @description 仅支持数组和字符串转换
+ * @param data object | object[]
+ * @param map object
+ */
+function _transformValueType(data: object, map: object): object {
   const target = {};
   Object.keys(data).forEach(key => {
     if (map[key] === 'number') {
@@ -19,4 +25,8 @@ export default function transformValueType(data: object, map: object): object {
     }
   });
   return target;
+}
+
+export default function transformValueType(data: object | object[], ...params) {
+  return supportArray(_transformValueType, data, ...params);
 }

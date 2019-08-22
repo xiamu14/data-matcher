@@ -13,7 +13,7 @@ import {
   addKey,
   part,
   addKeyFn,
-  classifyKey,
+  // classifyKey,
   remove,
 } from './lib';
 
@@ -67,10 +67,10 @@ class Matcher {
     this.data = part(this.data, key, fn, copy);
     return this;
   }
-  classifyKey(key) {
-    this.data = classifyKey(this.data as object[], key);
-    return this;
-  }
+  // classifyKey(key) {
+  //   this.data = classifyKey(this.data as object[], key);
+  //   return this;
+  // }
   remove(keys) {
     this.data = remove(this.data, keys);
     return this;
@@ -87,6 +87,6 @@ export {
   addKey,
   part,
   addKeyFn,
-  classifyKey,
+  // classifyKey,
   remove,
 };

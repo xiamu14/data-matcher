@@ -5,5 +5,5 @@ export { default as transformEmpty } from './transform_empty';
 export { default as addKey } from './add_key';
 export { default as part } from './part';
 export { default as addKeyFn } from './add_key_fn';
-export { default as classifyKey } from './classify_key';
+// export { default as classifyKey } from './classify_key';
 export { default as remove } from './remove';
