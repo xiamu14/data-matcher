@@ -18,8 +18,9 @@ data-matcher 包含两种使用方式：组合转换、单独转换。
 ### 组合转换
 
 引入 Matcher 类
+
 ```ts
-import Matcher from 'data-matcher'
+import Matcher from 'data-matcher';
 ```
 
 链式调用，将后端接口数据转换为前端的定义数据结构
@@ -28,31 +29,34 @@ import Matcher from 'data-matcher'
 const sourceData = {
   a: 1,
   b: '1',
-}
-const matcher = new Matcher(sourcedata)
+};
+const matcher = new Matcher(sourcedata);
 
-const { data:targetData} = matcher
+const { data: targetData } = matcher
   .transformKey({ a: 'c' })
-  .transformValueType({ b: number })
+  .transformValueType({ b: number });
 ```
 
 ### 单独转换
+
 单独引入转换函数，作用于元数据。
 
 ```ts
 import { transformKey } from 'data-matcher';
 const sourceData = {
   a: 1,
-  b: '1'
-}
-const targetData = transfromKey(sourceData, {a: 'c'})
+  b: '1',
+};
+const targetData = transfromKey(sourceData, { a: 'c' });
 ```
 
 ## 全部 api
 
-- input()
+- transformKey()
 
-  导入数据
+  转换对象数组中对象的 key 值
+
+  - param
 
 - output()
 
