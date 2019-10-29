@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
-    "jest": "jest __test__/*.spec.ts --coverage"
+    "jest": "jest --coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
