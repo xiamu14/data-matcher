@@ -1,5 +1,5 @@
 ## 数据匹配器
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END -->
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## 安装
 
@@ -111,6 +111,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/jfmengels"><img src="https://avatars1.githubusercontent.com/u/3869412?v=4" width="100px;" alt="Jeroen Engels"/><br /><sub><b>Jeroen Engels</b></sub></a><br /><a href="https://github.com/xiamu14/data-matcher/commits?author=jfmengels" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/yangjianguo12"><img src="https://avatars3.githubusercontent.com/u/48900717?v=4" width="100px;" alt="yangjianguo12"/><br /><sub><b>yangjianguo12</b></sub></a><br /><a href="https://github.com/xiamu14/data-matcher/commits?author=yangjianguo12" title="Documentation">📖</a></td>
   </tr>
 </table>
 
