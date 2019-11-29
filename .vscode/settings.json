@@ -1,11 +1,5 @@
 {
-    "editor.formatOnSave": true,
-    "eslint.validate": [
-        "typescript",
-        {
-            "language": "typescript",
-            "autoFix": true
-        },
-    ],
-    "files.autoSave": "onWindowChange"
+  "editor.formatOnSave": true,
+  "files.autoSave": "onWindowChange",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

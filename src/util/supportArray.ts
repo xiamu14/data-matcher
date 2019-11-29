@@ -1,7 +1,7 @@
 export default function supportArray(
   util: Function,
   data: any | any[],
-  ...params
+  ...params: any[]
 ) {
   let res = {};
   if (Array.isArray(data)) {

@@ -16,6 +16,6 @@ function _addKey(data: object, map: object): object {
   return target;
 }
 
-export default function addKey(data: object | object[], ...params) {
-  return supportArray(_addKey, data, ...params);
+export default function addKey(data: object | object[], params: object) {
+  return supportArray(_addKey, data, params);
 }

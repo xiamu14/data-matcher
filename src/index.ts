@@ -33,13 +33,13 @@ class Matcher {
   }
 
   // 转换 key 值，处理的是对象
-  transformKey(map) {
+  transformKey(map: Record<string, string>) {
     this.data = transformKey(this.data, map);
     return this;
   }
 
   // 转换 value 值类型，处理的是对象
-  transformValueType(map) {
+  transformValueType(map: Record<string, any>) {
     this.data = transformValueType(this.data, map);
     return this;
   }
@@ -51,27 +51,23 @@ class Matcher {
   }
 
   // 增加默认字段，处理的是对象
-  addKey(map) {
+  addKey(map: Record<string, any>) {
     this.data = addKey(this.data, map);
     return this;
   }
 
   // 增加字段，val 值由外部函数定义
-  addKeyFn(key, fn) {
+  addKeyFn(key: string, fn: Function) {
     this.data = addKeyFn(this.data, key, fn);
     return this;
   }
 
   // 添加函数，处理 data 里的部分数据
-  part(key, fn, copy) {
+  part(key: string, fn: Function, copy: string) {
     this.data = part(this.data, key, fn, copy);
     return this;
   }
-  // classifyKey(key) {
-  //   this.data = classifyKey(this.data as object[], key);
-  //   return this;
-  // }
-  remove(keys) {
+  remove(keys: string[]) {
     this.data = remove(this.data, keys);
     return this;
   }
@@ -87,6 +83,5 @@ export {
   addKey,
   part,
   addKeyFn,
-  // classifyKey,
   remove,
 };

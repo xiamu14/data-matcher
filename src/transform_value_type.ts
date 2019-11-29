@@ -27,6 +27,9 @@ function _transformValueType(data: object, map: object): object {
   return target;
 }
 
-export default function transformValueType(data: object | object[], ...params) {
-  return supportArray(_transformValueType, data, ...params);
+export default function transformValueType(
+  data: object | object[],
+  params: object,
+) {
+  return supportArray(_transformValueType, data, params);
 }

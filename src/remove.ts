@@ -12,13 +12,13 @@ import supportArray from './util/supportArray';
 function _remove(data: object | object[], keys: string[]) {
   const target = data;
 
-  keys.forEach(key => {
+  keys.map(key => {
     delete target[key];
   });
 
   return target;
 }
 
-export default function remove(data: object | object[], ...params) {
-  return supportArray(_remove, data, ...params);
+export default function remove(data: object | object[], keys: string[]) {
+  return supportArray(_remove, data, keys);
 }

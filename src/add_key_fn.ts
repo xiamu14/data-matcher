@@ -14,7 +14,6 @@ function _addKeyFn(data: object, key: string, fn: Function): object {
   return target;
 }
 
-export default function addKeyFn(data: object | object[], ...params) {
+export default function addKeyFn(data: object | object[], ...params: any[]) {
   return supportArray(_addKeyFn, data, ...params);
 }
-
