@@ -10,19 +10,21 @@ import {
   toValuesArray,
   transformValueType,
   transformEmpty,
+  transformVal,
   addKey,
   part,
   addKeyFn,
   // classifyKey,
   remove,
+  TMap,
 } from './lib';
 
-type sourceData = object | object[];
+type SourceData = object | object[];
 
 class Matcher {
-  data: sourceData;
+  data: SourceData;
 
-  constructor(data: sourceData) {
+  constructor(data: SourceData) {
     this.data = data;
   }
 
@@ -47,6 +49,11 @@ class Matcher {
   // 将所有的非值字段转换为空字符串，处理的是对象
   transformEmpty() {
     this.data = transformEmpty(this.data);
+    return this;
+  }
+
+  transformVal(map: TMap) {
+    this.data = transformVal(this.data, map);
     return this;
   }
 
@@ -80,6 +87,7 @@ export {
   toValuesArray,
   transformValueType,
   transformEmpty,
+  transformVal,
   addKey,
   part,
   addKeyFn,

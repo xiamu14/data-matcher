@@ -3,11 +3,13 @@ import Matcher, {
   transformKey,
   transformValueType,
   transformEmpty,
+  transformVal,
   addKey,
   part,
   addKeyFn,
   remove,
 } from '../dist';
+import { transform } from '@babel/core';
 
 // ------------ toValuesArray -------------
 describe('toValuesArray', () => {
@@ -183,6 +185,27 @@ describe('transformEmpty', () => {
       },
     ]);
   });
+
+  test('objectEmpty', () => {
+    expect(
+      transformEmpty({ a: {}, b: 'null', c: undefined }, { sVal: {}, tVal: 0 }),
+    ).toEqual({
+      a: 0,
+      b: 0,
+      c: 0,
+    });
+  });
+});
+
+// ------------ transformVal -------
+describe('transformVal', () => {
+  expect(
+    transformVal({ a: {}, b: {}, c: {} }, { sVal: {}, tVal: 0, keys: ['a'] }),
+  ).toEqual({
+    a: 0,
+    b: {},
+    c: {},
+  });
 });
 
 // ------------ remove -------------
@@ -193,7 +216,15 @@ describe('remove', () => {
     });
   });
   test('objectArray', () => {
-    expect(remove([{ a: 1, b: 2 }, { a: 2, b: 3 }], ['a'])).toEqual([
+    expect(
+      remove(
+        [
+          { a: 1, b: 2 },
+          { a: 2, b: 3 },
+        ],
+        ['a'],
+      ),
+    ).toEqual([
       {
         b: 2,
       },
