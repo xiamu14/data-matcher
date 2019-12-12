@@ -1,6 +1,6 @@
 {
   "name": "data-matcher",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "dist",
   "license": "MIT",
   "registry": "git@github.com:xiamu14/data-matcher.git",
