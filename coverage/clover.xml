@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1576154668467" clover="3.2.0">
-  <project timestamp="1576154668467" name="All files">
+<coverage generated="1576162476006" clover="3.2.0">
+  <project timestamp="1576162476006" name="All files">
     <metrics statements="137" coveredstatements="112" conditionals="80" coveredconditionals="59" methods="47" coveredmethods="38" elements="264" coveredelements="209" complexity="0" loc="137" ncloc="137" packages="1" files="1" classes="1"/>
     <file name="index.js" path="/Users/ben/Documents/w/code/myproject/package/data_matcher/dist/index.js">
       <metrics statements="137" coveredstatements="112" conditionals="80" coveredconditionals="59" methods="47" coveredmethods="38"/>

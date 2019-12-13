@@ -3,7 +3,7 @@ export default function supportArray(
   data: any | any[],
   ...params: any[]
 ) {
-  let res = {};
+  let res: any = {};
   if (Array.isArray(data)) {
     res = data.map(item => util(item, ...params));
   } else {

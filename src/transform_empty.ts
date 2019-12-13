@@ -40,6 +40,9 @@ function _transfromEmpty(
  * @description 将 null,undefined, "undefined" 等转换为 空字符串 ‘’
  * @param {object | object[]} data
  */
-export default function transfromEmpty(data: object | object[], map?: object) {
+export default function transfromEmpty(
+  data: object | object[],
+  map?: object,
+): any {
   return supportArray(_transfromEmpty, data, map);
 }

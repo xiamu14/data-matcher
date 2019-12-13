@@ -20,8 +20,11 @@ function _transformKey(data: object, map: object): object {
   return target;
 }
 
-export default function transformKey(data: object | object[], map: object) {
-  let res = {};
+export default function transformKey(
+  data: object | object[],
+  map: object,
+): any {
+  let res: any = {};
   if (Array.isArray(data)) {
     res = data.map(item => _transformKey(item, map));
   } else {

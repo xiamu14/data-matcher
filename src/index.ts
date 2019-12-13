@@ -70,7 +70,7 @@ class Matcher {
   }
 
   // 添加函数，处理 data 里的部分数据
-  part(key: string, fn: Function, copy: string) {
+  part(key: string, fn: Function, copy?: string) {
     this.data = part(this.data, key, fn, copy);
     return this;
   }

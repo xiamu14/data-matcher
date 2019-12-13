@@ -36,6 +36,6 @@ function _transfromVal(data: object, map: TMap): object {
  * @description 将 null,undefined, "undefined" 等转换为 空字符串 ‘’
  * @param {object | object[]} data
  */
-export default function transfromVal(data: object | object[], map: TMap) {
+export default function transfromVal(data: object | object[], map: TMap): any {
   return supportArray(_transfromVal, data, map);
 }

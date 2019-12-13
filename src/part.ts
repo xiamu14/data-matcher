@@ -25,8 +25,8 @@ export default function part(
   key: string,
   fn: Function,
   copy?: string,
-) {
-  let res = {};
+): any {
+  let res: any = {};
   if (Array.isArray(data)) {
     res = data.map(item => _part(item, key, fn, copy));
   } else {

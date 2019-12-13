@@ -12,6 +12,6 @@ function _toValuesArray(data: Object): any[] {
   return Object.values(data);
 }
 
-export default function toValuesArray(data: object | object[]) {
+export default function toValuesArray(data: object | object[]): any {
   return supportArray(_toValuesArray, data);
 }

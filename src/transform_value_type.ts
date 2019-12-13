@@ -30,6 +30,6 @@ function _transformValueType(data: object, map: object): object {
 export default function transformValueType(
   data: object | object[],
   params: object,
-) {
+): any {
   return supportArray(_transformValueType, data, params);
 }

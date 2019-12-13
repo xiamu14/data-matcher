@@ -19,6 +19,6 @@ function _remove(data: object | object[], keys: string[]) {
   return target;
 }
 
-export default function remove(data: object | object[], keys: string[]) {
+export default function remove(data: object | object[], keys: string[]): any {
   return supportArray(_remove, data, keys);
 }
