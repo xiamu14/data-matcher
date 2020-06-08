@@ -80,6 +80,11 @@ class Matcher {
   }
 }
 
+//  返回一个实例引用
+export const matcher = (data: SourceData) => {
+  return new Matcher(data);
+};
+
 export default Matcher;
 
 export {
