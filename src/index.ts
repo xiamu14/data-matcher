@@ -18,7 +18,7 @@ import {
   remove,
   TMap,
 } from './lib';
-
+export { Converter } from './core/converter';
 type SourceData = object | object[];
 
 class Matcher {
@@ -74,6 +74,7 @@ class Matcher {
     this.data = part(this.data, key, fn, copy);
     return this;
   }
+  // 删除某个字段
   remove(keys: string[]) {
     this.data = remove(this.data, keys);
     return this;

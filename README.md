@@ -1,6 +1,4 @@
-## 数据匹配器
-
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END -->
+# 数据匹配器
 
 ## 安装
 
@@ -71,49 +69,48 @@ const targetData = transfromKey(sourceData, { a: 'c' });
   => ['a', 'b']
 
 - addKey()
-  
+
   将新对象遍历添加到，已知数组对象中的每一个属性的后面，如：  
   old = [{a : 'a'},{b:'b'}];  
   new = {c:'c'};  
   => [{a:'a',c:'c'},
-      {b:'b',c:'c'}];
+  {b:'b',c:'c'}];
 
 - addKeyFn()
-  
+
   将新属性名和值拼接后，添进原对象，如：  
   addKeyFn( { a: 1 }, 'b', () => { return 2 } } )  
   => {a:1,b:2}
 
 - transformKey()
-  
+
   将数组对象每个对象属性值提出来，如：  
   [ { test: 1 }, { test: 2 } ]  
   => {tag: 1,},{tag:2}
 
 - transformValueType()
-  
-  按对象属性类型转为number || string || others，如：  
+
+  按对象属性类型转为 number || string || others，如：  
   (transformValueType({ a: '1' }, { a: 'number' }))  
   => { a:1 }
 
 - transformEmpty()
-  
-  将带有null/undefined的每个属性的值都变为空字符串，如：  
+
+  将带有 null/undefined 的每个属性的值都变为空字符串，如：  
   { a: null, b: 'null', c: undefined }  
   => { a:'' , b:'' , c:'' }
 
 - part()
-  
+
   给指定对象属性赋值，若属性不存在就添加属性并赋值如：  
   part( [ { test: '1', b: '2' } ] , 'test', ( ) => { return 3; } )  
   => { test : 3 , b : 2}
 
 - remove()
-  
+
   按属性名删除对象内属性，如：  
   remove ( { a: 1, b: 2 } , ['a'] )  
    => { b : 2 }
-
 
 ## 使用案例
 
