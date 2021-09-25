@@ -18,7 +18,7 @@ import {
   remove,
   TMap,
 } from './lib';
-export { Converter } from './core/converter';
+
 type SourceData = object | object[];
 
 class Matcher {
