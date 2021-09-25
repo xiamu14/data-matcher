@@ -6,7 +6,7 @@
  * @Date: 2019-04-25 11:15:21
  * @LastEditTime: 2019-04-25 11:17:18
  */
-import supportArray from './util/supportArray';
+import supportArray from '../util/supportArray';
 
 function _toValuesArray(data: Object): any[] {
   return Object.values(data);

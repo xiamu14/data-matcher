@@ -6,7 +6,7 @@
  * @Date: 2019-04-26 10:29:22
  * @LastEditTime: 2019-04-26 10:30:47
  */
-import supportArray from './util/supportArray';
+import supportArray from '../util/supportArray';
 
 function _addKeyFn(data: object, key: string, fn: Function): object {
   const target = data;

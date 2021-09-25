@@ -1,43 +1,5 @@
-import { DataItem } from './type';
 import deepClone from 'lodash.clonedeep';
-
-class Queue {
-  items: DataItem[];
-  constructor() {
-    this.items = [];
-  }
-
-  enqueue(item: DataItem) {
-    this.items.push(item);
-  }
-
-  dequeue() {
-    return this.items.shift();
-  }
-
-  peek() {
-    return this.items[0];
-  }
-
-  forEach(callback: (item: DataItem, index: number) => void) {
-    let index = 0;
-    const action = () => {
-      if (!this.isEmpty()) {
-        const item = this.dequeue();
-        if (item) {
-          callback(item, index);
-          index += 1;
-          action();
-        }
-      }
-    };
-    action();
-  }
-
-  isEmpty() {
-    return this.items.length === 0;
-  }
-}
+import Queue from '../util/Queue';
 
 class Matcher {
   private addRecord: Queue = new Queue();

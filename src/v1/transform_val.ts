@@ -6,7 +6,7 @@
  * @Date: 2019-04-26 10:24:30
  * @LastEditTime: 2019-04-26 10:25:40
  */
-import supportArray from './util/supportArray';
+import supportArray from '../util/supportArray';
 import _isEqual from 'lodash.isequal';
 
 export interface TMap {
@@ -18,14 +18,14 @@ export interface TMap {
 function _transfromVal(data: object, map: TMap): object {
   const target = { ...data };
   const sKeys = Object.keys(data);
-  const tKeys = sKeys.filter(key => _isEqual(data[key], map.sVal));
+  const tKeys = sKeys.filter((key) => _isEqual(data[key], map.sVal));
   if (map?.keys) {
-    const rKeys = tKeys.filter(key => map.keys?.indexOf(key) !== -1);
-    rKeys.map(key => {
+    const rKeys = tKeys.filter((key) => map.keys?.indexOf(key) !== -1);
+    rKeys.map((key) => {
       target[key] = map.tVal;
     });
   } else {
-    tKeys.map(key => {
+    tKeys.map((key) => {
       target[key] = map.tVal;
     });
   }

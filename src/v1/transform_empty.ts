@@ -6,7 +6,7 @@
  * @Date: 2019-04-26 10:24:30
  * @LastEditTime: 2019-04-26 10:25:40
  */
-import supportArray from './util/supportArray';
+import supportArray from '../util/supportArray';
 import _isEqual from 'lodash.isequal';
 
 function _transfromEmpty(
@@ -14,7 +14,7 @@ function _transfromEmpty(
   map?: { sVal: any; tVal: 0 | [] | {} | ''; keys?: string[] },
 ): object {
   const target = <object>{};
-  Object.keys(data).forEach(key => {
+  Object.keys(data).forEach((key) => {
     if (
       data[key] === null ||
       data[key] === 'null' ||
