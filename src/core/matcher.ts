@@ -1,4 +1,5 @@
 import { DataItem } from './type';
+import deepClone from 'lodash.clonedeep';
 
 class Queue {
   items: DataItem[];
@@ -38,21 +39,6 @@ class Queue {
   }
 }
 
-const deepClone = (obj: DataItem) => {
-  if (obj === null) return null;
-  let clone = Object.assign({}, obj);
-  Object.keys(clone).forEach(
-    (key) =>
-      (clone[key] =
-        typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key]),
-  );
-  if (Array.isArray(clone)) {
-    clone.length = obj.length;
-    return Array.from(clone);
-  }
-  return clone;
-};
-
 class Matcher {
   private addRecord: Queue = new Queue();
   private deleteRecord: Queue = new Queue();
@@ -83,24 +69,39 @@ class Matcher {
   }
 
   private convert() {
-    // TODO: 处理顺序：增加数据-删除数据-修改 value - 修改 key
-    // TODO：判断 addRecord.isEmpty
-    this.result = deepClone(this.originalData); // 重置缓存
+    // TODO: 判断是否是数组
+    if (Array.isArray(this.originalData)) {
+      this.result = this.originalData.map((item) => {
+        return this.convertItem(item);
+      });
+    } else {
+      this.result = this.convertItem(this.originalData);
+    }
+  }
+
+  private convertItem(originalDataItem: any) {
+    const result: any = deepClone(originalDataItem);
+    // NOTE: 处理顺序：增加数据-删除数据-修改 value - 修改 key
     if (!this.addRecord.isEmpty()) {
       this.addRecord.forEach((record) => {
-        this.result[record['key']] = record['valueFn'](this.originalData);
+        result[record['key']] = record['valueFn'](originalDataItem);
       });
     }
     if (!this.deleteRecord.isEmpty()) {
       this.deleteRecord.forEach((record) => {
         record.forEach((key: string) => {
-          delete this.result[key];
+          delete result[key];
         });
       });
     }
     if (!this.editValueRecord.isEmpty()) {
       this.editValueRecord.forEach((record) => {
-        this.result[record['key']] = record['valueFn'](this.originalData);
+        const cloneValue =
+          typeof result[record['key']] === 'object'
+            ? deepClone(result[record['key']])
+            : result[record['key']];
+        console.log('--cloneValue', cloneValue);
+        result[record['key']] = record['valueFn'](cloneValue, originalDataItem);
       });
     }
 
@@ -109,14 +110,15 @@ class Matcher {
         // FIXME: 判断是否存在
         records.forEach((record: any) => {
           const cloneValue =
-            typeof this.result[record['key']] === 'object'
-              ? deepClone(this.result[record['key']])
-              : this.result[record['key']];
-          this.result[record['newKey']] = cloneValue;
-          delete this.result[record['key']];
+            typeof result[record['key']] === 'object'
+              ? deepClone(result[record['key']])
+              : result[record['key']];
+          result[record['newKey']] = cloneValue;
+          delete result[record['key']];
         });
       });
     }
+    return result;
   }
 
   public add(record: { key: string; valueFn: (data: any) => any }) {

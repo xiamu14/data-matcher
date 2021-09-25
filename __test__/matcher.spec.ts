@@ -1,4 +1,4 @@
-import Matcher from '../src/matcher';
+import Matcher from '../src/core/matcher';
 
 describe('matcher', () => {
   test('deepClone', () => {
@@ -20,12 +20,20 @@ describe('matcher', () => {
     expect(matcher.data).toEqual({ a: 'a' });
   });
   test('editValue', () => {
-    const data = { a: { a: 'a' }, b: 'b' };
+    const data = { a: [{ a: 'a' }], b: 'b' };
     const matcher = new Matcher(data);
     matcher.editValue({ key: 'a', valueFn: () => 'a/' });
     expect(matcher.data).toEqual({ a: 'a/', b: 'b' });
-    matcher.editValue({ key: 'a', valueFn: () => ({ aa: 'aa', ab: 'ab' }) });
-    expect(matcher.data).toEqual({ a: { aa: 'aa', ab: 'ab' }, b: 'b' });
+    matcher.editValue({
+      key: 'a',
+      valueFn: (item) => {
+        return item.map(() => ({ aa: 'aa', ab: { abc: 'abc' } }));
+      },
+    });
+    expect(matcher.data).toEqual({
+      a: [{ aa: 'aa', ab: { abc: 'abc' } }],
+      b: 'b',
+    });
   });
   test('editKey', () => {
     const data = { a: 'a', b: 'b' };
