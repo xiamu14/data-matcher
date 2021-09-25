@@ -34,6 +34,8 @@ describe('matcher', () => {
       a: [{ aa: 'aa', ab: { abc: 'abc' } }],
       b: 'b',
     });
+    // 验证不影响原始数据
+    expect(data).toEqual({ a: [{ a: 'a' }], b: 'b' });
   });
   test('editKey', () => {
     const data = { a: 'a', b: 'b' };
