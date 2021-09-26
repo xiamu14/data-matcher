@@ -6,7 +6,7 @@
  * @Date: 2019-04-26 10:27:37
  * @LastEditTime: 2019-04-26 10:28:39
  */
-import supportArray from '../util/supportArray';
+import supportArray from './util/supportArray';
 
 function _addKey(data: object, map: object): object {
   const target = data;

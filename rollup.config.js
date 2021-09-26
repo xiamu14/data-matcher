@@ -12,10 +12,32 @@ export default [
       file: 'dist/index.js',
       format: 'umd',
     },
+
     plugins: [
       filesize(),
       typescript({
-        declaration: true,
+        // include: ['src'],
+        tsconfigDefaults: {
+          include: ['src'],
+          exclude: ['src/v1'],
+        },
+      }),
+    ],
+  },
+  {
+    input: 'src/v1/index.ts',
+    output: {
+      name: pkg.name,
+      dir: 'dist/v1',
+      format: 'umd',
+    },
+
+    plugins: [
+      filesize(),
+      typescript({
+        tsconfigDefaults: {
+          include: ['src/v1'],
+        },
       }),
     ],
   },

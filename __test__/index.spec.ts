@@ -8,7 +8,7 @@ import Matcher, {
   part,
   addKeyFn,
   remove,
-} from '../dist';
+} from '../dist/v1';
 
 // ------------ toValuesArray -------------
 describe('toValuesArray', () => {

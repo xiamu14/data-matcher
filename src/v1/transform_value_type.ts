@@ -7,7 +7,7 @@
  * @LastEditTime: 2019-04-26 10:23:21
  */
 
-import supportArray from '../util/supportArray';
+import supportArray from './util/supportArray';
 /**
  * @description 仅支持数组和字符串转换
  * @param data object | object[]

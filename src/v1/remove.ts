@@ -7,7 +7,7 @@
  * @LastEditTime: 2019-05-22 11:17:07
  */
 
-import supportArray from '../util/supportArray';
+import supportArray from './util/supportArray';
 
 function _remove(data: object | object[], keys: string[]) {
   const target = data;

@@ -10,7 +10,7 @@ describe('matcher object', () => {
   test('add', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
-    matcher.add({ key: 'c', valueFn: () => 'c' });
+    matcher.add('c', () => 'c');
     expect(matcher.data).toEqual({ a: 'a', b: 'b', c: 'c' });
   });
   test('delete', () => {
@@ -22,13 +22,10 @@ describe('matcher object', () => {
   test('editValue', () => {
     const data = { a: [{ a: 'a' }], b: 'b' };
     const matcher = new Matcher(data);
-    matcher.editValue({ key: 'a', valueFn: () => 'a/' });
+    matcher.editValue('a', () => 'a/');
     expect(matcher.data).toEqual({ a: 'a/', b: 'b' });
-    matcher.editValue({
-      key: 'a',
-      valueFn: (item) => {
-        return item.map(() => ({ aa: 'aa', ab: { abc: 'abc' } }));
-      },
+    matcher.editValue('a', (item) => {
+      return item.map(() => ({ aa: 'aa', ab: { abc: 'abc' } }));
     });
     expect(matcher.data).toEqual({
       a: [{ aa: 'aa', ab: { abc: 'abc' } }],
@@ -40,22 +37,22 @@ describe('matcher object', () => {
   test('editKey', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
-    matcher.editKey([{ key: 'a', newKey: 'a/' }]);
+    matcher.editKey({ a: 'a/' });
     expect(matcher.data).toEqual({ 'a/': 'a', b: 'b' });
   });
   test('valueDelivery', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
     matcher
-      .add({ key: 'c', valueFn: () => 'c' })
+      .add('c', () => 'c')
       .delete(['b'])
-      .editValue({ key: 'a', valueFn: () => 'aa' });
+      .editValue('a', () => 'aa');
     expect(data).toEqual({ a: 'a', b: 'b' });
     expect(matcher.data).toEqual({ a: 'aa', c: 'c' });
     // 顺序无关
     matcher
-      .editValue({ key: 'a', valueFn: () => 'aa' })
-      .add({ key: 'c', valueFn: () => 'c' })
+      .editValue('a', () => 'aa')
+      .add('c', () => 'c')
       .delete(['b']);
     expect(matcher.data).toEqual({ a: 'aa', c: 'c' });
   });
@@ -71,7 +68,7 @@ describe('matcher object array', () => {
   test('add', () => {
     const data = [{ a: 'a', b: 'b' }];
     const matcher = new Matcher(data);
-    matcher.add({ key: 'c', valueFn: () => 'c' });
+    matcher.add('c', () => 'c');
     expect(matcher.data).toEqual([{ a: 'a', b: 'b', c: 'c' }]);
   });
   test('delete', () => {
@@ -83,13 +80,10 @@ describe('matcher object array', () => {
   test('editValue', () => {
     const data = [{ a: [{ a: 'a' }], b: 'b' }];
     const matcher = new Matcher(data);
-    matcher.editValue({ key: 'a', valueFn: () => 'a/' });
+    matcher.editValue('a', () => 'a/');
     expect(matcher.data).toEqual([{ a: 'a/', b: 'b' }]);
-    matcher.editValue({
-      key: 'a',
-      valueFn: (item) => {
-        return item.map(() => ({ aa: 'aa', ab: { abc: 'abc' } }));
-      },
+    matcher.editValue('a', (item) => {
+      return item.map(() => ({ aa: 'aa', ab: { abc: 'abc' } }));
     });
     expect(matcher.data).toEqual([
       {
@@ -103,22 +97,22 @@ describe('matcher object array', () => {
   test('editKey', () => {
     const data = [{ a: 'a', b: 'b' }];
     const matcher = new Matcher(data);
-    matcher.editKey([{ key: 'a', newKey: 'a/' }]);
+    matcher.editKey({ a: 'a/' });
     expect(matcher.data).toEqual([{ 'a/': 'a', b: 'b' }]);
   });
   test('valueDelivery', () => {
     const data = [{ a: 'a', b: 'b' }];
     const matcher = new Matcher(data);
     matcher
-      .add({ key: 'c', valueFn: () => 'c' })
+      .add('c', () => 'c')
       .delete(['b'])
-      .editValue({ key: 'a', valueFn: () => 'aa' });
+      .editValue('a', () => 'aa');
     expect(data).toEqual([{ a: 'a', b: 'b' }]);
     expect(matcher.data).toEqual([{ a: 'aa', c: 'c' }]);
     // 顺序无关
     matcher
-      .editValue({ key: 'a', valueFn: () => 'aa' })
-      .add({ key: 'c', valueFn: () => 'c' })
+      .editValue('a', () => 'aa')
+      .add('c', () => 'c')
       .delete(['b']);
     expect(matcher.data).toEqual([{ a: 'aa', c: 'c' }]);
   });

@@ -6,7 +6,7 @@
  * @Date: 2019-04-26 10:24:30
  * @LastEditTime: 2019-04-26 10:25:40
  */
-import supportArray from '../util/supportArray';
+import supportArray from './util/supportArray';
 import _isEqual from 'lodash.isequal';
 
 function _transfromEmpty(

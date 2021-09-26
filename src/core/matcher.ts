@@ -1,6 +1,8 @@
 import deepClone from 'lodash.clonedeep';
 import Queue from '../util/Queue';
 
+import { DataItemKey } from '../type';
+
 class Matcher {
   private addRecord: Queue = new Queue();
   private deleteRecord: Queue = new Queue();
@@ -83,7 +85,8 @@ class Matcher {
     return result;
   }
 
-  public add(record: { key: string; valueFn: (data: any) => any }) {
+  public add(key: string, valueFn: (data: any) => any) {
+    const record = { key, valueFn };
     this.addRecord.enqueue(record);
     return this;
   }
@@ -93,15 +96,17 @@ class Matcher {
     return this;
   }
 
-  public editValue(record: {
-    key: string;
-    valueFn: (item: any, data: any) => any;
-  }) {
+  public editValue(key: string, valueFn: (data: any) => any) {
+    const record = { key, valueFn };
     this.editValueRecord.enqueue(record);
     return this;
   }
 
-  public editKey(records: { key: string; newKey: string }[]) {
+  public editKey(keyMap: Record<DataItemKey, DataItemKey>) {
+    const records: { key: DataItemKey; newKey: DataItemKey }[] = [];
+    Object.keys(keyMap).forEach((key) => {
+      records.push({ key, newKey: keyMap[key] });
+    });
     this.editKeyRecord.enqueue(records);
     return this;
   }
