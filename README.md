@@ -32,6 +32,7 @@ import Matcher from 'data-matcher';
 ## TODO
 
 1. 精简 editValue 入参
-2. 构建调整，旧版挪到 v1 目录
-3. 增加 github 自动构建功能
-4. 完善 README.md 文档
+2. 优化 delete 的 record 数据结构
+3. 构建调整，旧版挪到 v1 目录
+4. 增加 github 自动构建功能
+5. 完善 README.md 文档
