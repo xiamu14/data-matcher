@@ -32,7 +32,7 @@ import Matcher from 'data-matcher';
 ## TODO
 
 - [x] 精简 editValue 入参
-- [x] 完善代码容错能力（校验数据并提示错误）
 - [x] 构建调整，旧版挪到 v1 目录
+- [ ] 完善代码容错能力（校验数据并提示错误）
 - [ ] 增加 github 自动构建功能
 - [ ] 完善 README.md 文档
