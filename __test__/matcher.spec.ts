@@ -12,17 +12,21 @@ describe('matcher object', () => {
     const matcher = new Matcher(data);
     matcher.add('c', () => 'c');
     expect(matcher.data).toEqual({ a: 'a', b: 'b', c: 'c' });
+    const uniqC = Symbol('c');
+    matcher.add(uniqC, () => 'symbol(c)');
+    // console.log(matcher.data);
+    expect(matcher.data).toEqual({ a: 'a', b: 'b', [uniqC]: 'symbol(c)' });
   });
   test('delete', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
-    matcher.delete(['b']);
+    matcher.delete(['b', 'c']);
     expect(matcher.data).toEqual({ a: 'a' });
   });
   test('editValue', () => {
     const data = { a: [{ a: 'a' }], b: 'b' };
     const matcher = new Matcher(data);
-    matcher.editValue('a', () => 'a/');
+    matcher.editValue('a', () => 'a/').editValue('c', () => 'c');
     expect(matcher.data).toEqual({ a: 'a/', b: 'b' });
     matcher.editValue('a', (item) => {
       return item.map(() => ({ aa: 'aa', ab: { abc: 'abc' } }));
@@ -37,7 +41,7 @@ describe('matcher object', () => {
   test('editKey', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
-    matcher.editKey({ a: 'a/' });
+    matcher.editKey({ a: 'a/' }).editKey({ c: 'c/' });
     expect(matcher.data).toEqual({ 'a/': 'a', b: 'b' });
   });
   test('valueDelivery', () => {

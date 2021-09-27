@@ -1,6 +1,5 @@
 import deepClone from 'lodash.clonedeep';
 import Queue from '../util/Queue';
-
 import { DataItemKey } from '../type';
 
 class Matcher {
@@ -16,7 +15,7 @@ class Matcher {
   }
 
   public get data() {
-    // TODO: 执行计算: 计算结果要缓存，如果再次获取需要，record 没有更新，则直接从缓存里获取
+    // NOTE: 执行计算: 计算结果要缓存，如果再次获取需要，record 没有更新，则直接从缓存里获取
     if (this.shouldConvert()) {
       this.convert();
     }
@@ -33,7 +32,7 @@ class Matcher {
   }
 
   private convert() {
-    // TODO: 判断是否是数组
+    // NOTE: 判断是否是数组
     if (Array.isArray(this.originalData)) {
       this.result = this.originalData.map((item) => {
         return this.convertItem(item);
@@ -45,6 +44,7 @@ class Matcher {
 
   private convertItem(originalDataItem: any) {
     const result: any = deepClone(originalDataItem);
+    const noExitKeys = new Set<DataItemKey>(); // 存储不存在的 key，用于提示
     // NOTE: 处理顺序：增加数据-删除数据-修改 value - 修改 key
     if (!this.addRecord.isEmpty()) {
       this.addRecord.forEach((record) => {
@@ -54,49 +54,74 @@ class Matcher {
     if (!this.deleteRecord.isEmpty()) {
       this.deleteRecord.forEach((record) => {
         record.forEach((key: string) => {
-          delete result[key];
+          if (key in result) {
+            delete result[key];
+          } else {
+            noExitKeys.add(key);
+          }
         });
       });
     }
     if (!this.editValueRecord.isEmpty()) {
       this.editValueRecord.forEach((record) => {
-        const cloneValue =
-          typeof result[record['key']] === 'object'
-            ? deepClone(result[record['key']])
-            : result[record['key']];
-        console.log('--cloneValue', cloneValue);
-        result[record['key']] = record['valueFn'](cloneValue, originalDataItem);
+        const { key, valueFn } = record;
+        if (key in result) {
+          const cloneValue =
+            typeof result[key] === 'object'
+              ? deepClone(result[key])
+              : result[key];
+          // console.log('--cloneValue', cloneValue);
+          result[key] = valueFn(cloneValue, originalDataItem);
+        } else {
+          noExitKeys.add(key);
+        }
       });
     }
 
     if (!this.editKeyRecord.isEmpty()) {
       this.editKeyRecord.forEach((records) => {
-        // FIXME: 判断是否存在
         records.forEach((record: any) => {
-          const cloneValue =
-            typeof result[record['key']] === 'object'
-              ? deepClone(result[record['key']])
-              : result[record['key']];
-          result[record['newKey']] = cloneValue;
-          delete result[record['key']];
+          const { key, newKey } = record;
+          if (key in result) {
+            const cloneValue =
+              typeof result[key] === 'object'
+                ? deepClone(result[key])
+                : result[key];
+            result[newKey] = cloneValue;
+            delete result[key];
+          } else {
+            noExitKeys.add(key);
+          }
         });
       });
+    }
+    if (noExitKeys.size > 0) {
+      let keyString = '';
+
+      noExitKeys.forEach((item) => {
+        keyString = `${keyString},${
+          typeof item === 'symbol' ? String(item) : item
+        }`;
+      });
+      console.warn(
+        `key 错误： 以下 key [${keyString.substr(1)}] 不存在于数据中`,
+      );
     }
     return result;
   }
 
-  public add(key: string, valueFn: (data: any) => any) {
+  public add(key: DataItemKey, valueFn: (data: any) => any) {
     const record = { key, valueFn };
     this.addRecord.enqueue(record);
     return this;
   }
 
-  public delete(keys: string[]) {
+  public delete(keys: DataItemKey[]) {
     this.deleteRecord.enqueue(keys);
     return this;
   }
 
-  public editValue(key: string, valueFn: (data: any) => any) {
+  public editValue(key: DataItemKey, valueFn: (data: any) => any) {
     const record = { key, valueFn };
     this.editValueRecord.enqueue(record);
     return this;

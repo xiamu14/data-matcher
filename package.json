@@ -3,7 +3,8 @@
   "version": "2.0.1",
   "main": "dist",
   "license": "MIT",
-  "registry": "git@github.com:xiamu14/data-matcher.git",
+  "registry": "https://github.com/xiamu14/data-matcher",
+  "homepage": "https://github.com/xiamu14/data-matcher",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rimraf dist && rollup -c",

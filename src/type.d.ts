@@ -1,2 +1,2 @@
-export type DataItemKey = string | number | symbol;
+export type DataItemKey = string | symbol;
 export type DataItem = Record<DataItemKey, any>;
