@@ -136,6 +136,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 - [x] 构建调整，旧版挪到 v1 目录
 - [x] 完善代码容错能力（校验数据并提示错误）
 - [x] 优化类型描述（提供更准确的内容描述）
+- [ ] 处理 'potential security vulnerabilities in your dependencies.' 提示
 - [ ] 完善 README.md / package.json
 - [ ] 增加 github 自动构建功能
 - [ ] 增加性能测试（10w 数据处理耗时，二次获取数据缓存验证）
