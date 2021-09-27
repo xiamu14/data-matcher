@@ -1,8 +1,8 @@
-# 数据匹配器
+## 数据适配器
 
 > 本文档是 v2 版本内容，v1 版本已经处于废弃 ⚠️ 阶段，请及时升级（codeMod 正在开发中，当前请手动修改）。维护阶段如果仍需参考 v1 文档，请访问 [v1 文档](https://github.com/xiamu14/data-matcher/blob/master/src/v1/README.md)
 
-## data-matcher 用途
+## 用途
 
 ## 安装
 
@@ -14,7 +14,7 @@ yarn add data-matcher
 pnpm install data-matcher
 ```
 
-## data-matcher 使用
+## 使用
 
 ```js
 const data = { a: 'a', b: 'b' };
@@ -26,7 +26,7 @@ matcher
 matcher.data; // { a: 'aa', c: 'c' }
 ```
 
-## data-matcher 方法
+## 方法
 
 ### add 增加数据
 
@@ -55,7 +55,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 
 ### editKey 修改 key
 
-## data-matcher 特性
+## 特性
 
 1. immutable：内部使用 cloneDeep 函数，对传入的数据进行深拷贝，所有修改不影响原始数据
    ```js
@@ -86,9 +86,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 3. 归纳操作：Matcher 内部会收集所有调用方法，便于对数组数据只使用一次遍历完成数据操作
 4. 链式调用：使用链式调用方法，对数据的操作代码更有组织性
 
-## 使用案例
-
-### Ant Design 的 select 组件
+## 案例
 
 ## TODO
 
