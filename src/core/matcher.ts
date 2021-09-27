@@ -1,6 +1,6 @@
 import deepClone from 'lodash.clonedeep';
 import Queue from '../util/Queue';
-import { DataItemKey } from '../type';
+import { DataItem, DataItemKey, DataType } from '../type';
 
 class Matcher {
   private addRecord: Queue = new Queue();
@@ -9,7 +9,7 @@ class Matcher {
   private editKeyRecord: Queue = new Queue();
   private originalData: any;
   private result: any;
-  constructor(data: any) {
+  constructor(data: DataType) {
     this.originalData = deepClone(data);
     this.result = deepClone(data);
   }
@@ -70,7 +70,7 @@ class Matcher {
             typeof result[key] === 'object'
               ? deepClone(result[key])
               : result[key];
-          // console.log('--cloneValue', cloneValue);
+          console.log('--cloneValue', cloneValue);
           result[key] = valueFn(cloneValue, originalDataItem);
         } else {
           noExitKeys.add(key);
@@ -110,7 +110,7 @@ class Matcher {
     return result;
   }
 
-  public add(key: DataItemKey, valueFn: (data: any) => any) {
+  public add(key: DataItemKey, valueFn: (data: DataItem) => any) {
     const record = { key, valueFn };
     this.addRecord.enqueue(record);
     return this;
@@ -121,7 +121,10 @@ class Matcher {
     return this;
   }
 
-  public editValue(key: DataItemKey, valueFn: (data: any) => any) {
+  public editValue(
+    key: DataItemKey,
+    valueFn: (value: any, data: DataItem) => any,
+  ) {
     const record = { key, valueFn };
     this.editValueRecord.enqueue(record);
     return this;
