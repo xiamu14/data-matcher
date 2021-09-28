@@ -1,6 +1,11 @@
 <p align="center">
 <img width="200" src="https://img.icons8.com/clouds/500/000000/synchronize.png"/>
 </P>
+ <p align="center">
+ <img src="https://img.shields.io/badge/coverage-100%25-brightgreen">
+ <img src="https://img.shields.io/badge/min%20size-1%20kb-blue">
+ <img src="https://img.shields.io/npm/dt/data-matcher.svg?colorB=ff69b4">
+ </p>
 
 ## 数据适配器
 
@@ -8,7 +13,7 @@
 
 ## 用途
 
-在数据处理过程中，不同环节所储存或反馈的数据字段，类型总会存在差异。
+在数据处理过程中，不同环节所储存或反馈的数据字段、类型总会存在差异。
 
 服务端 api 数据和前端数据的差异，前端组件和第三方组件数据的差异，数据在不同环节的差异等。
 
@@ -24,11 +29,11 @@
 
 ## 安装
 
-```
+```bash
 yarn add data-matcher
 ```
 
-```
+```bash
 pnpm install data-matcher
 ```
 
@@ -168,8 +173,8 @@ matcher.data; // { a: 'aa', c: 'c' }
 - [x] 优化类型描述（提供更准确的内容描述）
 - [x] 处理 'potential security vulnerabilities in your dependencies.' 提示
 - [x] 完善 README.md / package.json
+- [x] 文档增加 logo 和 徽标
 - [ ] 增加 github 自动构建功能
-- [ ] 文档增加 logo 和 徽标
 - [ ] 新方法 clean：清洗不必要的数据，比如值为 null, undefined, "", 0 等
 - [ ] 新方法 clone：clone 新数据，比如 id 拷贝到 key
 - [ ] 增加性能测试（10w 数据处理耗时，二次获取数据缓存验证）
