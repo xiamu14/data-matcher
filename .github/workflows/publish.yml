@@ -1,33 +1,38 @@
-name: Public Npm
+name: Release
 
 on:
   push:
     branches: [master]
 
 jobs:
-  publish:
+  publish-npm:
     runs-on: ubuntu-latest
-
-    name: 'publish npm'
-
-    environment: npm
-
     steps:
       - uses: actions/checkout@master
-
       - uses: actions/setup-node@v2
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-
-      - name: Install and Build
-        run: |
-          yarn install
-          yarn build # 这是我的项目的打包命令，你也可以改成你的
-
-      - name: 'Publish to the npm registry'
-        uses: primer/publish@3.0.0
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+      - run: yarn build
+      - run: yarn publish --access public
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # 跟前面步骤中的 NPM_AUTH_TOKEN 保持一致
+
+  publish-gpr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v2
         with:
-          default_branch: 'master'
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/'
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+      - run: yarn build
+      - run: yarn publish --access public
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # 跟前面步骤中的 NPM_AUTH_TOKEN 保持一致
