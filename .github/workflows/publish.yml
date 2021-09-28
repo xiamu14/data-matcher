@@ -17,7 +17,7 @@ jobs:
         with:
           cmd: install
       - run: yarn build
-      - run: yarn publish --access public
+      - run: yarn publish
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # 跟前面步骤中的 NPM_AUTH_TOKEN 保持一致
 
