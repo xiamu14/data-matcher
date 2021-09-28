@@ -1,3 +1,5 @@
+<div style="background:#eee;width:120px; height:120px;border-radius:8px;display:flex;justify-content:center;align-items:center;margin: 10px auto 40px;"><img width="100" src="https://img.icons8.com/fluency/240/000000/share-2.png"/></div>
+
 ## 数据适配器
 
 > 本文档是 v2 版本内容，v1 版本已经处于废弃 ⚠️ 阶段，请及时升级（codeMod 正在开发中，当前请手动修改）。维护阶段如果仍需参考 v1 文档，请访问 [v1 文档](https://github.com/xiamu14/data-matcher/blob/master/src/v1/README.md)
@@ -165,6 +167,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 - [x] 处理 'potential security vulnerabilities in your dependencies.' 提示
 - [x] 完善 README.md / package.json
 - [ ] 增加 github 自动构建功能
+- [ ] 文档增加 logo 和 徽标
 - [ ] 新方法 clean：清洗不必要的数据，比如值为 null, undefined, "", 0 等
 - [ ] 新方法 clone：clone 新数据，比如 id 拷贝到 key
 - [ ] 增加性能测试（10w 数据处理耗时，二次获取数据缓存验证）
