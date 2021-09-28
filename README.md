@@ -1,4 +1,6 @@
-<div style="background:#eee;width:120px; height:120px;border-radius:8px;display:flex;justify-content:center;align-items:center;margin: 10px auto 40px;"><img width="100" src="https://img.icons8.com/fluency/240/000000/share-2.png"/></div>
+<p align="center">
+<img width="200" src="https://img.icons8.com/clouds/500/000000/synchronize.png"/>
+</P>
 
 ## 数据适配器
 
