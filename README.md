@@ -55,6 +55,12 @@ matcher.data; // { a: 'aa', c: 'c' }
   | valueFn | 值的生成函数 | -- | (data: DataItem) => any |
 
 - 示例
+  ```js
+  const data = { startTime: '2019/09/12', endTime: '2019/09/30' };
+  const matcher = new Matcher(data);
+  matcher.add('dateRange', (data) => `${data.startTime}-${data.endTime}`);
+  matcher.data; // {startTime: '2019/09/12', endTime: '2019/09/30', dateRange:'2019/09/12-2019/09/30'}
+  ```
 
 ### delete (删除数据)
 
@@ -68,6 +74,12 @@ matcher.data; // { a: 'aa', c: 'c' }
   | keys | 键数组 | -- | 包含 string 或 Symbol 的数组 |
 
 - 示例
+  ```js
+  const data = { key: '1', label: 'apple', value: 'apple' };
+  const matcher = new Matcher(data);
+  matcher.delete(['label']);
+  matcher.data; // {key:'1',value:'apple'}
+  ```
 
 ### editValue (修改 value)
 
@@ -85,6 +97,14 @@ matcher.data; // { a: 'aa', c: 'c' }
   | valueFn | 值的生成函数 | -- | (key:any, data: DataItem) => any |
 
 - 示例
+  ```js
+  const data = { price: 1, createAt: 1632833413149 }; // 价格服务端存储单位[分]
+  const matcher = new Matcher(data);
+  matcher
+    .editValue('price', (value) => value / 100)
+    .editValue('createAt', (value) => dayjs(value).format('YYYY/MM/DD'));
+  matcher.data; // {price:0.01, createAt:'2021/09/28'}
+  ```
 
 ### editKey (修改 key)
 
@@ -98,6 +118,12 @@ matcher.data; // { a: 'aa', c: 'c' }
   | keyMap | 新旧 key 对象 | -- | {旧 key：新 key} |
 
 - 示例
+  ```js
+  const data = { id: '1' };
+  const matcher = new Matcher(data);
+  matcher.editKey({ id: 'key' });
+  marcher.data; // {key:'1'}
+  ```
 
 ## 特性
 
@@ -136,7 +162,9 @@ matcher.data; // { a: 'aa', c: 'c' }
 - [x] 构建调整，旧版挪到 v1 目录
 - [x] 完善代码容错能力（校验数据并提示错误）
 - [x] 优化类型描述（提供更准确的内容描述）
-- [ ] 处理 'potential security vulnerabilities in your dependencies.' 提示
-- [ ] 完善 README.md / package.json
+- [x] 处理 'potential security vulnerabilities in your dependencies.' 提示
+- [x] 完善 README.md / package.json
 - [ ] 增加 github 自动构建功能
+- [ ] 新方法 clean：清洗不必要的数据，比如值为 null, undefined, "", 0 等
+- [ ] 新方法 clone：clone 新数据，比如 id 拷贝到 key
 - [ ] 增加性能测试（10w 数据处理耗时，二次获取数据缓存验证）
