@@ -164,17 +164,3 @@ matcher.data; // { a: 'aa', c: 'c' }
    ```
 3. 归纳操作：Matcher 内部会收集所有调用方法，便于对数组数据只使用一次遍历完成数据操作
 4. 链式调用：使用链式调用方法，对数据的操作代码更有组织性
-
-## TODO
-
-- [x] 精简 editValue 入参
-- [x] 构建调整，旧版挪到 v1 目录
-- [x] 完善代码容错能力（校验数据并提示错误）
-- [x] 优化类型描述（提供更准确的内容描述）
-- [x] 处理 'potential security vulnerabilities in your dependencies.' 提示
-- [x] 完善 README.md / package.json
-- [x] 文档增加 logo 和 徽标
-- [ ] 增加 github 自动构建功能
-- [ ] 新方法 clean：清洗不必要的数据，比如值为 null, undefined, "", 0 等
-- [ ] 新方法 clone：clone 新数据，比如 id 拷贝到 key
-- [ ] 增加性能测试（10w 数据处理耗时，二次获取数据缓存验证）
