@@ -18,8 +18,8 @@ export default [
       typescript({
         // include: ['src'],
         tsconfigDefaults: {
-          include: ['src'],
-          exclude: ['src/v1'],
+          include: ['./src/*'],
+          exclude: ['./src/v1/*'],
         },
       }),
     ],
@@ -36,7 +36,7 @@ export default [
       filesize(),
       typescript({
         tsconfigDefaults: {
-          include: ['src/v1'],
+          include: ['./src/v1/*'],
         },
       }),
     ],
