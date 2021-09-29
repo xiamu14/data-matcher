@@ -5,12 +5,17 @@ on:
     branches: [master]
 
 jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: echo "hello tag ${{github.ref}}"
+
   publish-npm:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
       - name: Only do this when tagged
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        run: echo "hello tag ${{github.ref}}"
       - uses: actions/checkout@master
       - uses: actions/setup-node@v2
         with:
