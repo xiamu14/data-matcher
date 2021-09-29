@@ -6,6 +6,7 @@ on:
 
 jobs:
   publish-npm:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -20,10 +21,3 @@ jobs:
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}} # 跟前面步骤中的 NPM_AUTH_TOKEN 保持一致
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-          registry-url: 'https://npm.pkg.github.com/'
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}} # 跟前面步骤中的 NPM_AUTH_TOKEN 保持一致
