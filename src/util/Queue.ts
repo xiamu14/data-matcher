@@ -19,19 +19,23 @@ export default class Queue {
   //   return this.items[0];
   // }
 
-  forEach(callback: (item: DataItem, index: number) => void) {
+  forEachOnce(callback: (item: DataItem, index: number) => void) {
     let index = 0;
     const action = () => {
       if (!this.isEmpty()) {
-        const item = this.dequeue();
-        if (item) {
-          callback(item, index);
-          index += 1;
-          action();
-        }
+        const item = this.dequeue() as DataItem;
+        callback(item, index);
+        index += 1;
+        action();
       }
     };
     action();
+  }
+
+  forEachAlways(callback: (item: DataItem, index: number) => void) {
+    this.items.forEach((item, index) => {
+      callback(item, index);
+    });
   }
 
   isEmpty() {

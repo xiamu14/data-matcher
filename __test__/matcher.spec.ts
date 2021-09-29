@@ -1,5 +1,13 @@
 import Matcher from '../src/core/matcher';
 
+describe('type error', () => {
+  test('parameter', () => {
+    const data = 'string';
+    //@ts-ignore
+    expect(() => new Matcher(data)).toThrow();
+  });
+});
+
 describe('matcher object', () => {
   test('deepClone', () => {
     const data = { a: 'a', b: 'b' };
@@ -20,7 +28,7 @@ describe('matcher object', () => {
   test('delete', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
-    matcher.delete(['b', 'c']);
+    matcher.delete(['b', 'c', Symbol('c')]);
     expect(matcher.data).toEqual({ a: 'a' });
   });
   test('editValue', () => {
@@ -41,10 +49,10 @@ describe('matcher object', () => {
     expect(data).toEqual({ a: [{ a: 'a' }], b: 'b' });
   });
   test('editKey', () => {
-    const data = { a: 'a', b: 'b' };
+    const data = { a: 'a', b: { bb: 'bb' } };
     const matcher = new Matcher(data);
-    matcher.editKey({ a: 'a/' }).editKey({ c: 'c/' });
-    expect(matcher.data).toEqual({ 'a/': 'a', b: 'b' });
+    matcher.editKey({ a: 'a/', b: 'b/' });
+    expect(matcher.data).toEqual({ 'a/': 'a', 'b/': { bb: 'bb' } });
   });
   test('valueDelivery', () => {
     const data = { a: 'a', b: 'b' };
@@ -101,25 +109,43 @@ describe('matcher object array', () => {
     expect(data).toEqual([{ a: [{ a: 'a' }], b: 'b' }]);
   });
   test('editKey', () => {
-    const data = [{ a: 'a', b: 'b' }];
+    const data = [
+      { a: 'a', b: 'b' },
+      { a: 'a1', b: 'b1' },
+    ];
     const matcher = new Matcher(data);
-    matcher.editKey({ a: 'a/' });
-    expect(matcher.data).toEqual([{ 'a/': 'a', b: 'b' }]);
+    matcher.editKey({ a: 'a/' }).editKey({ c: 'c/' });
+    expect(matcher.data).toEqual([
+      { 'a/': 'a', b: 'b' },
+      { 'a/': 'a1', b: 'b1' },
+    ]);
   });
   test('valueDelivery', () => {
-    const data = [{ a: 'a', b: 'b' }];
+    const data = [
+      { a: 'a', b: 'b' },
+      { a: 'a1', b: 'b1' },
+    ];
     const matcher = new Matcher(data);
     matcher
       .add('c', () => 'c')
       .delete(['b'])
       .editValue('a', () => 'aa');
-    expect(data).toEqual([{ a: 'a', b: 'b' }]);
-    expect(matcher.data).toEqual([{ a: 'aa', c: 'c' }]);
+    expect(data).toEqual([
+      { a: 'a', b: 'b' },
+      { a: 'a1', b: 'b1' },
+    ]);
+    expect(matcher.data).toEqual([
+      { a: 'aa', c: 'c' },
+      { a: 'aa', c: 'c' },
+    ]);
     // 顺序无关
     matcher
       .editValue('a', () => 'aa')
       .add('c', () => 'c')
       .delete(['b']);
-    expect(matcher.data).toEqual([{ a: 'aa', c: 'c' }]);
+    expect(matcher.data).toEqual([
+      { a: 'aa', c: 'c' },
+      { a: 'aa', c: 'c' },
+    ]);
   });
 });
