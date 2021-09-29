@@ -22,7 +22,7 @@ data-matcher 包含两种使用方式：组合转换、单独转换。
 引入 Matcher 类
 
 ```ts
-import Matcher from 'data-matcher/v1';
+import Matcher from 'data-matcher/dist/v1';
 ```
 
 链式调用，将后端接口数据转换为前端的定义数据结构
