@@ -1,3 +1,4 @@
+import { matcher } from './../src/v1/index';
 import Matcher from '../src/core/matcher';
 
 describe('type error', () => {
@@ -53,6 +54,26 @@ describe('matcher object', () => {
     const matcher = new Matcher(data);
     matcher.editKey({ a: 'a/', b: 'b/' });
     expect(matcher.data).toEqual({ 'a/': 'a', 'b/': { bb: 'bb' } });
+  });
+  test('clean', () => {
+    const data = { price: 100, projectId: undefined };
+    const matcher = new Matcher(data);
+    matcher.clean([undefined]);
+    expect(matcher.data).toEqual({ price: 100 });
+  });
+  test('clone', () => {
+    const data = { a: 'a', b: { bb: 'bb' } };
+    const matcher = new Matcher(data);
+    matcher.clone({ a: 'a/' });
+    expect(matcher.data).toEqual({ a: 'a', 'a/': 'a', b: { bb: 'bb' } });
+  });
+  test('when', () => {
+    const data = { a: 'a', b: { bb: 'bb' } };
+    const matcher = new Matcher(data);
+    matcher.when(data.a === 'a', (that) => that.add('aa', () => 'aa'), null);
+    expect(matcher.data).toEqual({ aa: 'aa', a: 'a', b: { bb: 'bb' } });
+    matcher.when(data.a === 'aa', null, (that) => that.add('aa', () => 'aa'));
+    expect(matcher.data).toEqual({ aa: 'aa', a: 'a', b: { bb: 'bb' } });
   });
   test('valueDelivery', () => {
     const data = { a: 'a', b: 'b' };
@@ -120,6 +141,7 @@ describe('matcher object array', () => {
       { 'a/': 'a1', b: 'b1' },
     ]);
   });
+
   test('valueDelivery', () => {
     const data = [
       { a: 'a', b: 'b' },
