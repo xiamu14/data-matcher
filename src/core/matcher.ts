@@ -18,9 +18,9 @@ type CleanRecord = MayBeInvalidType[];
 class Matcher {
   private addRecord = new Queue<AddRecord>();
   private deleteRecord = new Queue<DeleteRecord>();
-  private cleanRecord = new Queue<CleanRecord>();
   private editValueRecord = new Queue<EditValueRecord>();
   private editKeyRecord = new Queue<EditKeyRecord[]>();
+  private cleanRecord = new Queue<CleanRecord>();
   private noExitKeys = new Set<DataItemKey>(); // 存储不存在的 key，用于提示开发者修正带吗
   private originalData: any;
   private result: any;
@@ -156,11 +156,6 @@ class Matcher {
     return this;
   }
 
-  public clean(invalidValues: MayBeInvalidType[]) {
-    this.cleanRecord.enqueue(invalidValues);
-    return this;
-  }
-
   public editValue(
     key: DataItemKey,
     valueFn: (value: any, data: DataItem) => any,
@@ -187,6 +182,13 @@ class Matcher {
     this.editKeyRecord.enqueue(records);
     return this;
   }
+
+  public clean(invalidValues: MayBeInvalidType[]) {
+    this.cleanRecord.enqueue(invalidValues);
+    return this;
+  }
+
+  // marked: 组合方法
 
   public when(
     condition: boolean,
