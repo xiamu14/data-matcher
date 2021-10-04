@@ -145,7 +145,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 - 参数
   | 参数 | 描述 | 默认值 | 类型 |
   | ------ | ----------- | ------ | ------ |
-  | invalidValues | 无意义的值集合 | -- | null | undefined | '' | 'null' | 'undefined' | 0 |
+  | invalidValues | 无意义的值集合 | -- | null 、 undefined 、 '' 、 'null' 、 'undefined' 、 0 |
 
 - 示例
 
