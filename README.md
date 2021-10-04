@@ -53,7 +53,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 
 ### add (增加数据)
 
-- 定义：
+- 定义
   ```js
   public add(key: DataItemKey, valueFn: (data: any) => any)
   ```
@@ -73,7 +73,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 
 ### delete (删除数据)
 
-- 定义：
+- 定义
   ```js
   public delete(keys: DataItemKey[])
   ```
@@ -92,7 +92,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 
 ### editValue (修改 value)
 
-- 定义：
+- 定义
   ```js
   public editValue(
     key: DataItemKey,
@@ -117,7 +117,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 
 ### editKey (修改 key)
 
-- 定义：
+- 定义
   ```js
   public editKey(keyMap: Record<DataItemKey, DataItemKey>)
   ```
@@ -132,6 +132,53 @@ matcher.data; // { a: 'aa', c: 'c' }
   const matcher = new Matcher(data);
   matcher.editKey({ id: 'key' });
   marcher.data; // {key:'1'}
+  ```
+
+### clean (清除无意义的数据)
+
+- 定义
+
+  ```js
+  public clean(invalidValues: MayBeInvalidType[])
+  ```
+
+- 参数
+  | 参数 | 描述 | 默认值 | 类型 |
+  | ------ | ----------- | ------ | ------ |
+  | invalidValues | 无意义的值集合 | -- | null | undefined | '' | 'null' | 'undefined' | 0 |
+
+- 示例
+
+  ```js
+  const data = { price: 100, projectId: undefined };
+  const matcher = new Matcher(data);
+  matcher.clean([undefined]);
+  matcher.data; // {price:100}
+  ```
+
+### when (根据条件组合操作)
+
+- 定义
+
+  ```js
+  public when(
+    condition: boolean,
+    whenTruthy: ((that: Matcher) => void) | null,
+    whenFalsy: ((that: Matcher) => void) | null,
+  )
+  ```
+
+- 参数
+  | 参数 | 描述 | 默认值 | 类型 |
+  | ------ | ----------- | ------ | ------ |
+  | condition | 条件值 | -- | boolean | true or false |
+
+- 示例
+  ```js
+  const data = { a: 'a', b: { bb: 'bb' } };
+  const matcher = new Matcher(data);
+  matcher.when(data.a === 'a', (that) => that.add('aa', () => 'aa'), null);
+  matcher.data; // {a:'a', b:{bb:'bb'}, 'aa':'aa'}
   ```
 
 ## 特性

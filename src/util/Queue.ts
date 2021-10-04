@@ -1,12 +1,10 @@
-import { DataItem } from '../type';
-
-export default class Queue {
-  items: DataItem[];
+export default class Queue<T> {
+  items: T[];
   constructor() {
     this.items = [];
   }
 
-  enqueue(item: DataItem) {
+  enqueue(item: T) {
     this.items.push(item);
   }
 
@@ -19,11 +17,11 @@ export default class Queue {
   //   return this.items[0];
   // }
 
-  forEachOnce(callback: (item: DataItem, index: number) => void) {
+  forEachOnce(callback: (item: T, index: number) => void) {
     let index = 0;
     const action = () => {
       if (!this.isEmpty()) {
-        const item = this.dequeue() as DataItem;
+        const item = this.dequeue() as T;
         callback(item, index);
         index += 1;
         action();
@@ -32,7 +30,7 @@ export default class Queue {
     action();
   }
 
-  forEachAlways(callback: (item: DataItem, index: number) => void) {
+  forEachAlways(callback: (item: T, index: number) => void) {
     this.items.forEach((item, index) => {
       callback(item, index);
     });

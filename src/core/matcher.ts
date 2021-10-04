@@ -1,13 +1,26 @@
 import deepClone from 'lodash.clonedeep';
 import Queue from '../util/Queue';
-import { DataItem, DataItemKey, DataType } from '../type';
+import { DataItem, DataItemKey, DataType, MayBeInvalidType } from '../type.d';
 import { isObject } from '../util/isType';
 
+type AddRecord = { key: DataItemKey; valueFn: (data: DataItem) => any };
+type DeleteRecord = DataItemKey[];
+type EditValueRecord = {
+  key: DataItemKey;
+  valueFn: (value: any, data: DataItem) => any;
+};
+type EditKeyRecord = {
+  key: DataItemKey;
+  newKey: DataItemKey;
+  isReserve: boolean;
+};
+type CleanRecord = MayBeInvalidType[];
 class Matcher {
-  private addRecord: Queue = new Queue();
-  private deleteRecord: Queue = new Queue();
-  private editValueRecord: Queue = new Queue();
-  private editKeyRecord: Queue = new Queue();
+  private addRecord = new Queue<AddRecord>();
+  private deleteRecord = new Queue<DeleteRecord>();
+  private editValueRecord = new Queue<EditValueRecord>();
+  private editKeyRecord = new Queue<EditKeyRecord[]>();
+  private cleanRecord = new Queue<CleanRecord>();
   private noExitKeys = new Set<DataItemKey>(); // 存储不存在的 key，用于提示开发者修正带吗
   private originalData: any;
   private result: any;
@@ -33,7 +46,8 @@ class Matcher {
       !this.addRecord.isEmpty() ||
       !this.deleteRecord.isEmpty() ||
       !this.editValueRecord.isEmpty() ||
-      !this.editKeyRecord.isEmpty()
+      !this.editKeyRecord.isEmpty() ||
+      !this.cleanRecord.isEmpty()
     );
   }
 
@@ -105,17 +119,26 @@ class Matcher {
     if (!this.editKeyRecord.isEmpty()) {
       this.editKeyRecord[type]((records) => {
         records.forEach((record: any) => {
-          const { key, newKey } = record;
+          const { key, newKey, isReserve } = record;
           if (key in result) {
             const cloneValue =
               typeof result[key] === 'object'
                 ? deepClone(result[key])
                 : result[key];
             result[newKey] = cloneValue;
-            delete result[key];
+            if (!isReserve) {
+              delete result[key];
+            }
           } else {
             this.noExitKeys.add(key);
           }
+        });
+      });
+    }
+    if (!this.cleanRecord.isEmpty()) {
+      this.cleanRecord[type]((record) => {
+        Object.keys(result).forEach((key) => {
+          if (record.includes(result[key])) delete result[key];
         });
       });
     }
@@ -143,11 +166,40 @@ class Matcher {
   }
 
   public editKey(keyMap: Record<DataItemKey, DataItemKey>) {
-    const records: { key: DataItemKey; newKey: DataItemKey }[] = [];
+    const records: EditKeyRecord[] = [];
     Object.keys(keyMap).forEach((key) => {
-      records.push({ key, newKey: keyMap[key] });
+      records.push({ key, newKey: keyMap[key], isReserve: false });
     });
     this.editKeyRecord.enqueue(records);
+    return this;
+  }
+
+  public clone(keyMap: Record<DataItemKey, DataItemKey>) {
+    const records: EditKeyRecord[] = [];
+    Object.keys(keyMap).forEach((key) => {
+      records.push({ key, newKey: keyMap[key], isReserve: true });
+    });
+    this.editKeyRecord.enqueue(records);
+    return this;
+  }
+
+  public clean(invalidValues: MayBeInvalidType[]) {
+    this.cleanRecord.enqueue(invalidValues);
+    return this;
+  }
+
+  // marked: 组合方法
+
+  public when(
+    condition: boolean,
+    whenTruthy: ((that: Matcher) => void) | null,
+    whenFalsy: ((that: Matcher) => void) | null,
+  ) {
+    if (condition) {
+      whenTruthy?.(this);
+    } else {
+      whenFalsy?.(this);
+    }
     return this;
   }
 }
