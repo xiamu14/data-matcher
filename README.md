@@ -54,9 +54,11 @@ matcher.data; // { a: 'aa', c: 'c' }
 ### add (增加数据)
 
 - 定义
+
   ```js
   public add(key: DataItemKey, valueFn: (data: any) => any)
   ```
+
 - 参数
   | 参数 | 描述 | 默认值 | 类型 |
   | ------ | ----------- | ------ | ------ |
@@ -74,9 +76,11 @@ matcher.data; // { a: 'aa', c: 'c' }
 ### delete (删除数据)
 
 - 定义
+
   ```js
   public delete(keys: DataItemKey[])
   ```
+
 - 参数
   | 参数 | 描述 | 默认值 | 类型 |
   | ------ | ----------- | ------ | ------ |
@@ -93,12 +97,14 @@ matcher.data; // { a: 'aa', c: 'c' }
 ### editValue (修改 value)
 
 - 定义
+
   ```js
   public editValue(
     key: DataItemKey,
     valueFn: (value: any, data: DataItem) => any,
   )
   ```
+
 - 参数
   | 参数 | 描述 | 默认值 | 类型 |
   | ------ | ----------- | ------ | ------ |
@@ -118,9 +124,11 @@ matcher.data; // { a: 'aa', c: 'c' }
 ### editKey (修改 key)
 
 - 定义
+
   ```js
   public editKey(keyMap: Record<DataItemKey, DataItemKey>)
   ```
+
 - 参数
   | 参数 | 描述 | 默认值 | 类型 |
   | ------ | ----------- | ------ | ------ |
@@ -132,6 +140,27 @@ matcher.data; // { a: 'aa', c: 'c' }
   const matcher = new Matcher(data);
   matcher.editKey({ id: 'key' });
   marcher.data; // {key:'1'}
+  ```
+
+### clone (拷贝数据)
+
+- 定义
+
+  ```js
+  public clone(keyMap: Record<DataItemKey, DataItemKey>)
+  ```
+
+- 参数
+  | 参数 | 描述 | 默认值 | 类型 |
+  | ------ | ----------- | ------ | ------ |
+  | keyMap | key 对象 | -- | {元 key：新 key} |
+
+- 示例
+  ```js
+  const data = { a: 'a', b: { bb: 'bb' } };
+  const matcher = new Matcher(data);
+  matcher.clone({ a: 'a/' });
+  matcher.data; // {a:'a', b:{bb:'bb'}, 'a/':'a'}
   ```
 
 ### clean (清除无意义的数据)

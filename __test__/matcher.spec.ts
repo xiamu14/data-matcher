@@ -1,4 +1,3 @@
-import { matcher } from './../src/v1/index';
 import Matcher from '../src/core/matcher';
 
 describe('type error', () => {
