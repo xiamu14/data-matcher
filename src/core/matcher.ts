@@ -1,6 +1,6 @@
 import deepClone from 'lodash.clonedeep';
 import Queue from '../util/Queue';
-import { DataItem, DataItemKey, DataType, MayBeInvalidType } from '../type.d';
+import { DataItem, DataItemKey, DataType, MayBeInvalidType } from '../type';
 import { isObject } from '../util/isType';
 
 type AddRecord = { key: DataItemKey; valueFn: (data: DataItem) => any };
