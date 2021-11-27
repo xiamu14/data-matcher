@@ -1,7 +1,7 @@
 {
   "name": "data-matcher",
   "version": "2.2.2",
-  "main": "dist",
+  "main": "dist/index.js",
   "license": "MIT",
   "registry": "https://github.com/xiamu14/data-matcher",
   "homepage": "https://github.com/xiamu14/data-matcher",
