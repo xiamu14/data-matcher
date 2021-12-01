@@ -3,28 +3,30 @@ import Queue from '../util/Queue';
 import { DataItem, DataItemKey, DataType, MayBeInvalidType } from '../type';
 import { isObject } from '../util/isType';
 
-type AddRecord = { key: DataItemKey; valueFn: (data: DataItem) => any };
-type DeleteRecord = DataItemKey[];
-type EditValueRecord = {
-  key: DataItemKey;
-  valueFn: (value: any, data: DataItem) => any;
+type AddRecord<T> = { key: DataItemKey; valueFn: (data: T) => any };
+type DeleteRecord<T> = (keyof T)[];
+type EditValueRecord<T> = {
+  key: keyof T;
+  valueFn: (value: any, data: T) => any;
 };
-type EditKeyRecord = {
-  key: DataItemKey;
-  newKey: DataItemKey;
+type EditKeyRecord<T> = {
+  key: keyof T;
+  newKey?: DataItemKey;
   isReserve: boolean;
 };
 type CleanRecord = MayBeInvalidType[];
-class Matcher {
-  private addRecord = new Queue<AddRecord>();
-  private deleteRecord = new Queue<DeleteRecord>();
-  private editValueRecord = new Queue<EditValueRecord>();
-  private editKeyRecord = new Queue<EditKeyRecord[]>();
+class Matcher<T extends DataItem> {
+  private addRecord = new Queue<AddRecord<T>>();
+  private deleteRecord = new Queue<DeleteRecord<T>>();
+  private editValueRecord = new Queue<EditValueRecord<T>>();
+  private editKeyRecord = new Queue<EditKeyRecord<T>[]>();
   private cleanRecord = new Queue<CleanRecord>();
+
   private noExitKeys = new Set<DataItemKey>(); // 存储不存在的 key，用于提示开发者修正带吗
   private originalData: any;
   private result: any;
-  constructor(data: DataType) {
+
+  constructor(data: DataType<T>) {
     if (isObject(data) || Array.isArray(data)) {
       this.originalData = deepClone(data);
       this.result = deepClone(data);
@@ -86,20 +88,13 @@ class Matcher {
     // NOTE: 处理顺序：增加数据-删除数据-修改 value - 修改 key
     if (!this.addRecord.isEmpty()) {
       this.addRecord[type]((record) => {
-        result[record['key']] = record['valueFn'](originalDataItem);
+        // NOTE: 判断不存在先
+        if (!(record['key'] in result)) {
+          result[record['key']] = record['valueFn'](originalDataItem);
+        }
       });
     }
-    if (!this.deleteRecord.isEmpty()) {
-      this.deleteRecord[type]((record) => {
-        record.forEach((key: string) => {
-          if (key in result) {
-            delete result[key];
-          } else {
-            this.noExitKeys.add(key);
-          }
-        });
-      });
-    }
+
     if (!this.editValueRecord.isEmpty()) {
       this.editValueRecord[type]((record) => {
         const { key, valueFn } = record;
@@ -135,6 +130,17 @@ class Matcher {
         });
       });
     }
+    if (!this.deleteRecord.isEmpty()) {
+      this.deleteRecord[type]((record) => {
+        record.forEach((key: string) => {
+          if (key in result) {
+            delete result[key];
+          } else {
+            this.noExitKeys.add(key);
+          }
+        });
+      });
+    }
     if (!this.cleanRecord.isEmpty()) {
       this.cleanRecord[type]((record) => {
         Object.keys(result).forEach((key) => {
@@ -145,28 +151,25 @@ class Matcher {
     return result;
   }
 
-  public add(key: DataItemKey, valueFn: (data: DataItem) => any) {
+  public add(key: DataItemKey, valueFn: (data: T) => any) {
     const record = { key, valueFn };
     this.addRecord.enqueue(record);
     return this;
   }
 
-  public delete(keys: DataItemKey[]) {
+  public delete(keys: (keyof T)[]) {
     this.deleteRecord.enqueue(keys);
     return this;
   }
 
-  public editValue(
-    key: DataItemKey,
-    valueFn: (value: any, data: DataItem) => any,
-  ) {
+  public editValue(key: keyof T, valueFn: (value: any, data: T) => any) {
     const record = { key, valueFn };
     this.editValueRecord.enqueue(record);
     return this;
   }
 
-  public editKey(keyMap: Record<DataItemKey, DataItemKey>) {
-    const records: EditKeyRecord[] = [];
+  public editKey(keyMap: Partial<Record<keyof T, DataItemKey>>) {
+    const records: EditKeyRecord<T>[] = [];
     Object.keys(keyMap).forEach((key) => {
       records.push({ key, newKey: keyMap[key], isReserve: false });
     });
@@ -174,8 +177,8 @@ class Matcher {
     return this;
   }
 
-  public clone(keyMap: Record<DataItemKey, DataItemKey>) {
-    const records: EditKeyRecord[] = [];
+  public clone(keyMap: Partial<Record<keyof T, DataItemKey>>) {
+    const records: EditKeyRecord<T>[] = [];
     Object.keys(keyMap).forEach((key) => {
       records.push({ key, newKey: keyMap[key], isReserve: true });
     });
@@ -192,8 +195,8 @@ class Matcher {
 
   public when(
     condition: boolean,
-    whenTruthy: ((that: Matcher) => void) | null,
-    whenFalsy: ((that: Matcher) => void) | null,
+    whenTruthy: ((that: Matcher<T>) => void) | null,
+    whenFalsy: ((that: Matcher<T>) => void) | null,
   ) {
     if (condition) {
       whenTruthy?.(this);

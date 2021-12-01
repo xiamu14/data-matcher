@@ -28,7 +28,7 @@ describe('matcher object', () => {
   test('delete', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
-    matcher.delete(['b', 'c', Symbol('c')]);
+    matcher.delete(['b']);
     expect(matcher.data).toEqual({ a: 'a' });
   });
   test('editValue', () => {
@@ -36,8 +36,8 @@ describe('matcher object', () => {
     const matcher = new Matcher(data);
     matcher
       .editValue('a', (value) => `${value[0].a}/`)
-      .editValue('c', () => 'c');
-    expect(matcher.data).toEqual({ a: 'a/', b: 'b' });
+      .editValue('b', () => 'c');
+    expect(matcher.data).toEqual({ a: 'a/', b: 'c' });
     matcher.editValue('a', (item) => {
       return item.map(() => ({ aa: 'aa', ab: { abc: 'abc' } }));
     });
@@ -104,6 +104,8 @@ describe('matcher object array', () => {
     const matcher = new Matcher(data);
     matcher.add('c', () => 'c');
     expect(matcher.data).toEqual([{ a: 'a', b: 'b', c: 'c' }]);
+    matcher.add('a', () => 'aa');
+    expect(matcher.data).toEqual([{ a: 'a', b: 'b' }]);
   });
   test('delete', () => {
     const data = [{ a: 'a', b: 'b' }];
@@ -134,10 +136,10 @@ describe('matcher object array', () => {
       { a: 'a1', b: 'b1' },
     ];
     const matcher = new Matcher(data);
-    matcher.editKey({ a: 'a/' }).editKey({ c: 'c/' });
+    matcher.editKey({ a: 'a/' }).editKey({ b: 'c/' });
     expect(matcher.data).toEqual([
-      { 'a/': 'a', b: 'b' },
-      { 'a/': 'a1', b: 'b1' },
+      { 'a/': 'a', 'c/': 'b' },
+      { 'a/': 'a1', 'c/': 'b1' },
     ]);
   });
 
@@ -167,6 +169,35 @@ describe('matcher object array', () => {
     expect(matcher.data).toEqual([
       { a: 'aa', c: 'c' },
       { a: 'aa', c: 'c' },
+    ]);
+  });
+
+  test('generic', () => {
+    const data = [
+      { id: 0, nickname: 'a' },
+      { id: 1, nickname: 'b' },
+    ];
+    const matcher = new Matcher<{ id: number; nickname: string }>(data);
+    matcher
+      .add('c', () => 'c')
+      .delete(['nickname'])
+      .editValue('id', () => 'id');
+    expect(data).toEqual([
+      { id: 0, nickname: 'a' },
+      { id: 1, nickname: 'b' },
+    ]);
+    expect(matcher.data).toEqual([
+      { id: 'id', c: 'c' },
+      { id: 'id', c: 'c' },
+    ]);
+    // 顺序无关
+    matcher
+      .editValue('nickname', () => 'aa')
+      .add('c', () => 'c')
+      .delete(['id']);
+    expect(matcher.data).toEqual([
+      { c: 'c', nickname: 'aa' },
+      { c: 'c', nickname: 'aa' },
     ]);
   });
 });

@@ -12,9 +12,7 @@
     "dev": "rollup -c -w",
     "build": "rimraf dist && rollup -c",
     "jest": "yarn build && jest --coverage",
-    "release": "standard-version",
-    "release:alpha": "standard-version --prerelease alpha",
-    "release:rc": "standard-version --prerelease rc"
+    "release": "renew-it"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -33,17 +31,17 @@
     "rollup-plugin-filesize": "^9.1.1",
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^27.0.5",
-    "standard-version": "^9.3.1",
     "typescript": "^4.4.3"
   },
   "dependencies": {
     "@types/lodash.clonedeep": "^4.5.6",
     "@types/lodash.isequal": "^4.5.5",
     "lodash.clonedeep": "^4.5.0",
-    "lodash.isequal": "^4.5.0"
+    "lodash.isequal": "^4.5.0",
+    "renew-it": "^1.4.9-alpha.0"
   },
   "peerDependencies": {
-    "lodash.isequal": "^4.5.0",
-    "lodash.clonedeep": "^4.5.0"
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.isequal": "^4.5.0"
   }
 }
