@@ -4461,10 +4461,10 @@ regjsparser@^0.7.0:
   dependencies:
     jsesc "~0.5.0"
 
-renew-it@^1.4.9-alpha.0:
-  version "1.4.9-alpha.0"
-  resolved "https://registry.yarnpkg.com/renew-it/-/renew-it-1.4.9-alpha.0.tgz#abc4226ba4a8a7ba0e3b26df63beb53f48110331"
-  integrity sha512-RPdqP1+FOoJ5me/tk2dfWmxEJ2OCiIm6yI3EK4RQDZg9OuazHH88+DZBm4Z2KX3GFniHWHUzwjuxDmBh1IMjbw==
+renew-it@^1.4.10-alpha.1:
+  version "1.4.10-alpha.1"
+  resolved "https://registry.yarnpkg.com/renew-it/-/renew-it-1.4.10-alpha.1.tgz#fb623bef866fb71c8b4879b08567f81de3e9b2fc"
+  integrity sha512-nyzg0c2GWcNSAEPZV5+T2rs0kNNC+O5BPUjzXh9D2e9VUYskZq5uy+MCpcSxjC92vuJOUvNnB3Co5VrUQCnUuw==
   dependencies:
     chalk "^2.4.1"
     commander "^2.15.1"
