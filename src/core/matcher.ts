@@ -1,10 +1,10 @@
 import deepClone from 'lodash.clonedeep';
 import Queue from '../util/Queue';
 import { DataItem, DataItemKey, DataType, MayBeInvalidType } from '../type';
-import { isObject } from '../util/isType';
+import { isNotEmptyArray, isObject } from '../util/isType';
 
 type AddRecord<T> = { key: DataItemKey; valueFn: (data: T) => any };
-type DeleteRecord<T> = (keyof T)[];
+type Keys<T> = (keyof T)[];
 type EditValueRecord<T> = {
   key: keyof T;
   valueFn: (value: any, data: T) => any;
@@ -17,22 +17,30 @@ type EditKeyRecord<T> = {
 type CleanRecord = MayBeInvalidType[];
 class Matcher<T extends DataItem> {
   private addRecord = new Queue<AddRecord<T>>();
-  private deleteRecord = new Queue<DeleteRecord<T>>();
+  private deleteRecord = new Queue<Keys<T>>();
+  private pickRecord = new Queue<Keys<T>>();
   private editValueRecord = new Queue<EditValueRecord<T>>();
   private editKeyRecord = new Queue<EditKeyRecord<T>[]>();
   private cleanRecord = new Queue<CleanRecord>();
 
-  private noExitKeys = new Set<DataItemKey>(); // 存储不存在的 key，用于提示开发者修正带吗
-  private originalData: any;
+  private noExitKeys = new Set<DataItemKey>(); // 存储不存在的 key，用于提示开发者修正带
+  private originalData: DataType<T>;
   private result: any;
 
   constructor(data: DataType<T>) {
-    if (isObject(data) || Array.isArray(data)) {
-      this.originalData = deepClone(data);
+    if (isObject(data) || isNotEmptyArray<T>(data)) {
+      this.originalData = deepClone(data) as DataType<T>;
       this.result = deepClone(data);
     } else {
-      throw new TypeError('The parameter must be an Object or Array.');
+      throw new TypeError(
+        'The dataSet must be an Object or Array,and cannot be an empty object or empty array.',
+      );
     }
+  }
+
+  // NOTE: 获取原始数据
+  public getOrigin() {
+    return this.originalData;
   }
 
   public get data() {
@@ -47,18 +55,32 @@ class Matcher<T extends DataItem> {
     return (
       !this.addRecord.isEmpty() ||
       !this.deleteRecord.isEmpty() ||
+      !this.pickRecord.isEmpty() ||
       !this.editValueRecord.isEmpty() ||
       !this.editKeyRecord.isEmpty() ||
       !this.cleanRecord.isEmpty()
     );
   }
 
+  private getOriginKeys() {
+    // 对比当前的 deleteRecord
+    let originKeys: string[] = [];
+
+    if (Array.isArray(this.originalData)) {
+      originKeys = Object.keys(this.originalData[0]);
+    } else {
+      originKeys = Object.keys(this.originalData);
+    }
+    return originKeys;
+  }
+
   private convert() {
     // NOTE: 判断是否是数组
     if (Array.isArray(this.originalData)) {
       this.result = this.originalData.map((item, index) => {
+        // NOTE: 当是最后一条数据时，使用 forEachOnce ，来清除记录，从而不重复计算
         const type =
-          index === this.originalData.length - 1
+          index === (this.originalData as T[]).length - 1
             ? 'forEachOnce'
             : 'forEachAlways';
         return this.convertItem(item, type);
@@ -74,8 +96,44 @@ class Matcher<T extends DataItem> {
         }`;
       });
       console.warn(
-        `key 错误： 以下 key [${keyString.substr(1)}] 不存在于数据中`,
+        `【key 错误】： 以下 key [${keyString.split(',')[0]}] 不存在于数据中`,
       );
+    }
+  }
+
+  // NOTE: 根据 deleteRecord 和 pickRecord 判断哪些字段需要删除；pick 优先级大于 delete
+  private pickOrDelete(result: any, type: 'forEachOnce' | 'forEachAlways') {
+    if (!this.pickRecord.isEmpty()) {
+      let pickKeys: string[] = [];
+      this.pickRecord[type]((record) => {
+        pickKeys = pickKeys.concat(record as string[]);
+      });
+      const originKeys = this.getOriginKeys();
+      const needDeleteKeys = originKeys.filter((it) => !pickKeys.includes(it));
+      needDeleteKeys.forEach((key: string) => {
+        if (key in result) {
+          delete result[key];
+        } else {
+          this.noExitKeys.add(key);
+        }
+      });
+      if (!this.deleteRecord.isEmpty()) {
+        console.warn(
+          '【逻辑警告】：已经设置了 pick 保留字段，delete 字段将无效。',
+        );
+      }
+    } else if (!this.deleteRecord.isEmpty()) {
+      let deleteKeys: string[] = [];
+      this.deleteRecord[type]((record) => {
+        deleteKeys = deleteKeys.concat(record as string[]);
+      });
+      deleteKeys.forEach((key: string) => {
+        if (key in result) {
+          delete result[key];
+        } else {
+          this.noExitKeys.add(key);
+        }
+      });
     }
   }
 
@@ -95,6 +153,8 @@ class Matcher<T extends DataItem> {
       });
     }
 
+    this.pickOrDelete(result, type);
+
     if (!this.editValueRecord.isEmpty()) {
       this.editValueRecord[type]((record) => {
         const { key, valueFn } = record;
@@ -103,7 +163,6 @@ class Matcher<T extends DataItem> {
             typeof result[key] === 'object'
               ? deepClone(result[key])
               : result[key];
-          // console.log('--cloneValue', cloneValue);
           result[key] = valueFn(cloneValue, originalDataItem);
         } else {
           this.noExitKeys.add(key);
@@ -130,17 +189,7 @@ class Matcher<T extends DataItem> {
         });
       });
     }
-    if (!this.deleteRecord.isEmpty()) {
-      this.deleteRecord[type]((record) => {
-        record.forEach((key: string) => {
-          if (key in result) {
-            delete result[key];
-          } else {
-            this.noExitKeys.add(key);
-          }
-        });
-      });
-    }
+
     if (!this.cleanRecord.isEmpty()) {
       this.cleanRecord[type]((record) => {
         Object.keys(result).forEach((key) => {
@@ -157,7 +206,14 @@ class Matcher<T extends DataItem> {
     return this;
   }
 
+  // NOTE: pick 优先级 > delete ；并提示冲突
+  public pick(keys: (keyof T)[]) {
+    this.pickRecord.enqueue(keys);
+    return this;
+  }
+
   public delete(keys: (keyof T)[]) {
+    // NOTE: 这里估计没考虑过 symbol
     this.deleteRecord.enqueue(keys);
     return this;
   }

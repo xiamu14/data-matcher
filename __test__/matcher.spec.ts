@@ -1,10 +1,20 @@
 import Matcher from '../src/core/matcher';
 
 describe('type error', () => {
-  test('parameter', () => {
+  test('string', () => {
     const data = 'string';
     //@ts-ignore
-    expect(() => new Matcher(data)).toThrow();
+    expect(() => new Matcher(data)).toThrow(
+      'The dataSet must be an Object or Array,and cannot be an empty object or empty array.',
+    );
+  });
+
+  test('empty array', () => {
+    const data: any[] = [];
+    //@ts-ignore
+    expect(() => new Matcher(data)).toThrow(
+      'The dataSet must be an Object or Array,and cannot be an empty object or empty array.',
+    );
   });
 });
 
@@ -22,15 +32,39 @@ describe('matcher object', () => {
     expect(matcher.data).toEqual({ a: 'a', b: 'b', c: 'ca' });
     const uniqC = Symbol('c');
     matcher.add(uniqC, () => 'symbol(c)');
-    // console.log(matcher.data);
     expect(matcher.data).toEqual({ a: 'a', b: 'b', [uniqC]: 'symbol(c)' });
   });
+
+  test('noExit', () => {
+    const data = { a: 'a', b: 'b' };
+    const matcher = new Matcher(data);
+    // @ts-ignore
+    matcher.delete(['c']);
+    expect(matcher.data).toEqual({ a: 'a', b: 'b' });
+  });
+
   test('delete', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
     matcher.delete(['b']);
     expect(matcher.data).toEqual({ a: 'a' });
+    expect(matcher.getOrigin()).toEqual({ a: 'a', b: 'b' });
   });
+
+  test('pick', () => {
+    const data = { a: 'a', b: 'b' };
+    const matcher = new Matcher(data);
+    matcher.pick(['b']);
+    expect(matcher.data).toEqual({ b: 'b' });
+  });
+
+  test('pickOrDelete', () => {
+    const data = { a: 'a', b: 'b' };
+    const matcher = new Matcher(data);
+    matcher.pick(['b']).delete(['b', 'a']);
+    expect(matcher.data).toEqual({ b: 'b' });
+  });
+
   test('editValue', () => {
     const data = { a: [{ a: 'a' }], b: 'b' };
     const matcher = new Matcher(data);
@@ -107,12 +141,28 @@ describe('matcher object array', () => {
     matcher.add('a', () => 'aa');
     expect(matcher.data).toEqual([{ a: 'a', b: 'b' }]);
   });
+
   test('delete', () => {
     const data = [{ a: 'a', b: 'b' }];
     const matcher = new Matcher(data);
     matcher.delete(['b']);
     expect(matcher.data).toEqual([{ a: 'a' }]);
   });
+
+  test('pick', () => {
+    const data = [{ a: 'a', b: 'b' }];
+    const matcher = new Matcher(data);
+    matcher.pick(['a']);
+    expect(matcher.data).toEqual([{ a: 'a' }]);
+  });
+
+  test('pickOrDelete', () => {
+    const data = [{ a: 'a', b: 'b', c: 'c' }];
+    const matcher = new Matcher(data);
+    matcher.pick(['b']).delete(['b', 'a']);
+    expect(matcher.data).toEqual([{ b: 'b' }]);
+  });
+
   test('editValue', () => {
     const data = [{ a: [{ a: 'a' }], b: 'b' }];
     const matcher = new Matcher(data);
@@ -129,6 +179,7 @@ describe('matcher object array', () => {
     ]);
     // 验证不影响原始数据
     expect(data).toEqual([{ a: [{ a: 'a' }], b: 'b' }]);
+    expect(matcher.getOrigin()).toEqual([{ a: [{ a: 'a' }], b: 'b' }]);
   });
   test('editKey', () => {
     const data = [
