@@ -73,7 +73,34 @@ matcher.data; // { a: 'aa', c: 'c' }
   matcher.data; // {startTime: '2019/09/12', endTime: '2019/09/30', dateRange:'2019/09/12-2019/09/30'}
   ```
 
-### delete (删除数据)
+### pick (取出指定数据)
+
+- 定义
+
+  ```js
+  public pick(keys: DataItemKey[])
+  ```
+
+- 参数
+  | 参数 | 描述 | 默认值 | 类型 |
+  | ------ | ----------- | ------ | ------ |
+  | keys | 键数组 | -- | 包含 string 或 Symbol 的数组 |
+
+- 示例
+
+  ```js
+  const data = { key: '1', label: 'apple', value: 'apple' };
+  const matcher = new Matcher(data);
+  matcher.pick(['label']);
+  matcher.data; // {label: 'apple',}
+  ```
+
+- 场景
+  用于从表格中编辑某些字段时，只取出一条数据里的部分进行编辑操作。虽然 delete 也可以实现，但偶尔会出现以后增加统计数据的情况，为避免每次增加数据都要去 delete ，最好使用 pick 方法来明确指定编辑的数据。
+
+> 注意，pick 和 delete 时互相冲突的，使用 pick 的话，delete 将无效。优先保留数据而非删除数据。
+
+### delete (删除指定数据)
 
 - 定义
 
@@ -176,6 +203,9 @@ matcher.data; // { a: 'aa', c: 'c' }
   | ------ | ----------- | ------ | ------ |
   | invalidValues | 无意义的值集合 | -- | null 、 undefined 、 '' 、 'null' 、 'undefined' 、 0 |
 
+- 场景
+  某些情况，数据里因为初始值等原因会出现 null 等值，但实际使用时需要去除值为 null 的字段
+
 - 示例
 
   ```js
@@ -219,7 +249,7 @@ matcher.data; // { a: 'aa', c: 'c' }
     this.result = deepClone(data);
    }
    ```
-2. 方法调用顺序无关：可以自由使用链式调用方法，内部使用固定的方法执行顺序（add[增加数据]->delete[删除数据]->editValue[修改 value] -> editKey[修改 key]）调用对应的方法来执行，确保数据操作的正确性
+2. 方法调用顺序无关：可以自由使用链式调用方法，内部使用固定的方法执行顺序（add[增加数据]->pickOrDelete[保留或删除数据]->editValue[修改 value] -> editKey[修改 key] -> clean[清除数据]）调用对应的方法来执行，确保数据操作的正确性
    ```js
    // 源码测试用例
    test('valueDelivery', () => {
