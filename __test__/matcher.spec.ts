@@ -44,7 +44,7 @@ describe('matcher object', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
     // @ts-ignore
-    matcher.delete(['c']);
+    matcher.delete(['c', 'd']);
     expect(matcher.data).toEqual({ a: 'a', b: 'b' });
   });
 

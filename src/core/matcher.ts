@@ -74,6 +74,10 @@ class Matcher<T extends DataItem> {
     return originKeys;
   }
 
+  private addNoExitKey(key: DataItemKey) {
+    this.noExitKeys.add(typeof key === 'symbol' ? String(key) : key);
+  }
+
   private convert() {
     // NOTE: 判断是否是数组
     if (Array.isArray(this.originalData)) {
@@ -89,14 +93,8 @@ class Matcher<T extends DataItem> {
       this.result = this.convertItem(this.originalData, 'forEachOnce');
     }
     if (this.noExitKeys.size > 0) {
-      let keyString = '';
-      this.noExitKeys.forEach((item) => {
-        keyString = `${keyString},${
-          typeof item === 'symbol' ? String(item) : item
-        }`;
-      });
       console.warn(
-        `【key 错误】： 以下 key [${keyString.split(',')[0]}] 不存在于数据中`,
+        `[warn]:Fields of ${[...this.noExitKeys].join(',')} do not exist.`,
       );
     }
   }
@@ -114,12 +112,12 @@ class Matcher<T extends DataItem> {
         if (key in result) {
           delete result[key];
         } else {
-          this.noExitKeys.add(key);
+          this.addNoExitKey(key);
         }
       });
       if (!this.deleteRecord.isEmpty()) {
         console.warn(
-          '【逻辑警告】：已经设置了 pick 保留字段，delete 字段将无效。',
+          '[warn]:Function "pick" has already been called, function "delete" will have no effect.',
         );
       }
     } else if (!this.deleteRecord.isEmpty()) {
@@ -131,7 +129,7 @@ class Matcher<T extends DataItem> {
         if (key in result) {
           delete result[key];
         } else {
-          this.noExitKeys.add(key);
+          this.addNoExitKey(key);
         }
       });
     }
@@ -165,7 +163,7 @@ class Matcher<T extends DataItem> {
               : result[key];
           result[key] = valueFn(cloneValue, originalDataItem);
         } else {
-          this.noExitKeys.add(key);
+          this.addNoExitKey(key);
         }
       });
     }
@@ -184,7 +182,7 @@ class Matcher<T extends DataItem> {
               delete result[key];
             }
           } else {
-            this.noExitKeys.add(key);
+            this.addNoExitKey(key);
           }
         });
       });
