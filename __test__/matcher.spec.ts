@@ -18,9 +18,14 @@ describe('type error', () => {
   });
 });
 
+interface Data {
+  a: string;
+  b: string;
+}
+
 describe('matcher object', () => {
   test('deepClone', () => {
-    const data = { a: 'a', b: 'b' };
+    const data: Data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
     expect(data === matcher.data).toEqual(false);
   });
