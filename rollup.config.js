@@ -12,8 +12,13 @@ export default [
     output: [
       {
         name: pkg.name,
+        file: 'dist/index.cjs.js',
+        format: 'cjs',
+      },
+      {
+        name: pkg.name,
         file: 'dist/index.es.js',
-        format: 'esm',
+        format: 'es',
       },
     ],
 
