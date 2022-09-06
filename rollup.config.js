@@ -1,5 +1,7 @@
 import typescript from 'rollup-plugin-typescript2';
 import filesize from 'rollup-plugin-filesize';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
 import pkg from './package.json';
 
 // 构建两个文件
@@ -10,17 +12,14 @@ export default [
     output: [
       {
         name: pkg.name,
-        file: 'dist/index.js',
-        format: 'cjs',
-      },
-      {
-        name: pkg.name,
         file: 'dist/index.es.js',
         format: 'esm',
       },
     ],
 
     plugins: [
+      resolve(),
+      commonjs(),
       filesize(),
       typescript({
         // include: ['src'],
