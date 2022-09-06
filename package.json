@@ -1,6 +1,6 @@
 {
   "name": "data-matcher",
-  "version": "2.4.3-alpha.4",
+  "version": "2.4.3-alpha.5",
   "main": "dist/index.es.js",
   "license": "MIT",
   "registry": "https://github.com/xiamu14/data-matcher",
@@ -29,7 +29,7 @@
     "eslint": "^7.32.0",
     "jest": "^27.2.3",
     "rimraf": "^3.0.2",
-    "rollup": "^2.57.0",
+    "rollup": "^2.79.0",
     "rollup-plugin-filesize": "^9.1.1",
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^27.0.5",
