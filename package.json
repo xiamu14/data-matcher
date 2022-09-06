@@ -1,7 +1,8 @@
 {
   "name": "data-matcher",
-  "version": "2.4.2",
+  "version": "2.4.3-alpha.0",
   "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "license": "MIT",
   "registry": "https://github.com/xiamu14/data-matcher",
   "homepage": "https://github.com/xiamu14/data-matcher",
@@ -38,7 +39,7 @@
     "@types/lodash.isequal": "^4.5.5",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
-    "renew-it": "^1.4.10-alpha.1"
+    "renew-it": "^1.5.2"
   },
   "peerDependencies": {
     "lodash.clonedeep": "^4.5.0",

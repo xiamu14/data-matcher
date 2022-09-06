@@ -7,11 +7,18 @@ export default [
   // browser-friendly UMD build
   {
     input: 'src/index.ts',
-    output: {
-      name: pkg.name,
-      file: 'dist/index.js',
-      format: 'umd',
-    },
+    output: [
+      {
+        name: pkg.name,
+        file: 'dist/index.js',
+        format: 'umd',
+      },
+      {
+        name: pkg.name,
+        file: 'dist/index.es.js',
+        format: 'esm',
+      },
+    ],
 
     plugins: [
       filesize(),
