@@ -11,7 +11,7 @@ export default [
       {
         name: pkg.name,
         file: 'dist/index.js',
-        format: 'umd',
+        format: 'cjs',
       },
       {
         name: pkg.name,
