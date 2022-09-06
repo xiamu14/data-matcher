@@ -1,3 +1,3 @@
-import Matcher from './core/matcher';
+export { default as Matcher } from './core/matcher';
 
-export default Matcher;
+// export default Matcher;
