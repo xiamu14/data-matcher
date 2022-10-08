@@ -21,11 +21,11 @@
 
 通过开发经验归纳，大致有下面三种差异：
 
-1. 初始数据和使用时数据的复合形态不同：初始数据应该包含产品所需的全部内容，但在使用时可以需要不同的复合形态，比如：select 选项初始数据包含 {id,name}，第三方组件使用时需要 {key,value,label}。[add ，delete 方法组合使用可抹平差异]
+1. 初始数据和使用时数据的复合形态不同：初始数据应该包含产品所需的全部内容，但在使用时却需要不同的复合形态，比如：select 选项初始数据包含 {id,name}，第三方组件使用时需要 {key,value,label}。[add ，delete 方法组合使用可抹平差异]
 2. key 命名不一致 [editKey 方法可修改 key]
 3. value 数据类型不一致 [editValue 方法可修改 value]
 
-当然，实际开发中还存在更复杂的差异，那样的情状建议特例化处理。
+当然，实际开发中还存在着更复杂的差异，那样的情状建议特例化处理。
 
 ## 安装
 
@@ -48,6 +48,10 @@ matcher
   .editValue('a', () => 'aa');
 matcher.data; // { a: 'aa', c: 'c' }
 ```
+
+> Tips：传入的数据必须是非空对象和非空数组，{} 和 [] 都是不允许的数据。开发者必须在业务中明确判断数据是非空的，才能传递给 Matcher。
+>
+> 否则 Matcher 将抛出一个类型错误： The dataSet must be an Object or Array,and cannot be an empty object or empty array.
 
 ## 方法
 
@@ -98,7 +102,7 @@ matcher.data; // { a: 'aa', c: 'c' }
 - 场景
   用于从表格中编辑某些字段时，只取出一条数据里的部分进行编辑操作。虽然 delete 也可以实现，但偶尔会出现以后增加统计数据的情况，为避免每次增加数据都要去 delete ，最好使用 pick 方法来明确指定编辑的数据。
 
-> 注意，pick 和 delete 时互相冲突的，使用 pick 的话，delete 将无效。优先保留数据而非删除数据。
+> 注意，pick 和 delete 时互相冲突的，使用 pick 的话，delete 将无效。优先保留指定数据而非删除数据。
 
 ### delete (删除指定数据)
 
@@ -268,5 +272,5 @@ matcher.data; // { a: 'aa', c: 'c' }
      expect(matcher.data).toEqual({ a: 'aa', c: 'c' }); // pass
    });
    ```
-3. 归纳操作：Matcher 内部会收集所有调用方法，便于对数组数据只使用一次遍历完成数据操作
+3. 归纳操作：Matcher 内部会收集所有调用方法，以便于对数组数据只使用一次遍历完成数据操作
 4. 链式调用：使用链式调用方法，对数据的操作代码更有组织性
