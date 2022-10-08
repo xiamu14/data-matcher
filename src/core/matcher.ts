@@ -23,7 +23,7 @@ class Matcher<T extends DataItem> {
   private editKeyRecord = new Queue<EditKeyRecord<T>[]>();
   private cleanRecord = new Queue<CleanRecord>();
 
-  private noExitKeys = new Set<DataItemKey>(); // 存储不存在的 key，用于提示开发者修正带
+  private noExitKeys = new Set<DataItemKey>(); // 存储不存在的 key，用于提示开发者修正
   private originalData: DataType<T>;
   private result: any;
 
@@ -107,7 +107,10 @@ class Matcher<T extends DataItem> {
         pickKeys = pickKeys.concat(record as string[]);
       });
       const originKeys = this.getOriginKeys();
-      const needDeleteKeys = originKeys.filter((it) => !pickKeys.includes(it));
+      const editKeys = Object.keys(result);
+      const needDeleteKeys = originKeys
+        .filter((it) => editKeys.includes(it)) // 过滤掉 add 函数新增的字段
+        .filter((it) => !pickKeys.includes(it));
       needDeleteKeys.forEach((key: string) => {
         if (key in result) {
           delete result[key];

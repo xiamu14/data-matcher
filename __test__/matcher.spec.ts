@@ -59,8 +59,8 @@ describe('matcher object', () => {
   test('pick', () => {
     const data = { a: 'a', b: 'b' };
     const matcher = new Matcher(data);
-    matcher.pick(['b']);
-    expect(matcher.data).toEqual({ b: 'b' });
+    matcher.add('c', () => 'c').pick(['b']);
+    expect(matcher.data).toEqual({ b: 'b', c: 'c' });
   });
 
   test('pickOrDelete', () => {
