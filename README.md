@@ -11,6 +11,8 @@
 
 > 本文档是 v2 版本内容，v1 版本已经处于废弃 ⚠️ 阶段，请及时升级（codeMod 正在开发中，当前请手动修改）。维护阶段如果仍需参考 v1 文档，请访问 [v1 文档](https://github.com/xiamu14/data-matcher/blob/master/src/v1/README.md)
 
+> 当前项目已经设置为归档。data-matcher 为了开发者使用时更好记忆，调整为 d-pipe 项目，请访问 [d-pipe](https://github.com/xiamu14/d-pipe/README.md)
+
 ## 用途
 
 在数据处理过程中，不同环节所储存或反馈的数据字段、类型总会存在差异。
